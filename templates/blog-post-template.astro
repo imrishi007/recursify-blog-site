@@ -1,0 +1,536 @@
+---
+// TEMPLATE FOR NEW BLOG POSTS
+// Copy this file to src/pages/posts/[your-post-name].astro
+// Replace all the placeholder content with your actual content
+
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+
+// UPDATE THESE VALUES FOR YOUR POST
+const POST_NUMBER = 999; // Change to your LeetCode problem number
+const POST_TITLE = "Your Problem Title"; // Change to the actual problem title
+const POST_DIFFICULTY = "Medium"; // Easy, Medium, or Hard
+const POST_DESCRIPTION = "Brief description of what this problem teaches"; // SEO description
+const LEETCODE_URL = "https://leetcode.com/problems/your-problem"; // LeetCode problem URL
+const POST_TAGS = ["Array", "Hash Table"]; // Relevant algorithm tags
+---
+
+<Layout title={`${POST_TITLE} - RECURSIFY`} description={POST_DESCRIPTION}>
+  <Navbar />
+  <main class="post-main">
+    <article class="post-article">
+      <div class="post-container">
+        <header class="post-header animate-on-scroll">
+          <div class="breadcrumb">
+            <a href="/">← Back to Problems</a>
+          </div>
+          <div class="problem-meta">
+            <span class="problem-number">{POST_NUMBER}</span>
+            <span class={`difficulty-badge difficulty-${POST_DIFFICULTY.toLowerCase()}`}>{POST_DIFFICULTY}</span>
+            <div class="leetcode-link">
+              <a href={LEETCODE_URL} target="_blank" rel="noopener">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818c.51.515 1.043.944 1.654 1.207a5.021 5.021 0 0 0 2.004.388 5.086 5.086 0 0 0 2.013-.403 5.484 5.484 0 0 0 1.702-1.211L11.7 16.4l7.312-7.312c.196-.196.4-.4.62-.606.203-.21.35-.467.349-.738.015-.282-.074-.558-.238-.792a1.348 1.348 0 0 0-.307-.418c-.37-.365-.936-.609-1.512-.609-.576 0-1.141.244-1.512.609L12.6 10.345 8.344 6.088a.915.915 0 0 1-.013-1.292.914.914 0 0 1 1.292-.013l4.012 4.013a.914.914 0 0 1 .013 1.292.915.915 0 0 1-1.292.013L8.344 6.088Z" fill="#FFA116"/>
+                </svg>
+                View on LeetCode
+              </a>
+            </div>
+          </div>
+          <h1 class="post-title">{POST_TITLE}</h1>
+          <p class="post-description">
+            {POST_DESCRIPTION}
+          </p>
+          <div class="post-tags">
+            {POST_TAGS.map(tag => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </header>
+
+        <section class="post-content">
+          <!-- PROBLEM STATEMENT SECTION -->
+          <div class="content-section animate-on-scroll">
+            <h2>Problem Statement</h2>
+            <div class="problem-box glass">
+              <p>
+                <!-- REPLACE WITH ACTUAL PROBLEM STATEMENT -->
+                Write the problem statement here. Use <code>code formatting</code> for variables and <strong>bold</strong> for emphasis.
+              </p>
+              <p>
+                Add any constraints or additional information here.
+              </p>
+            </div>
+          </div>
+
+          <!-- EXAMPLES SECTION -->
+          <div class="content-section animate-on-scroll">
+            <h2>Examples</h2>
+            <div class="example-box glass">
+              <h3>Example 1:</h3>
+              <pre><code><span class="keyword">Input:</span> your input here
+<span class="keyword">Output:</span> expected output
+<span class="keyword">Explanation:</span> Brief explanation of the example</code></pre>
+            </div>
+            
+            <div class="example-box glass">
+              <h3>Example 2:</h3>
+              <pre><code><span class="keyword">Input:</span> another input
+<span class="keyword">Output:</span> expected output</code></pre>
+            </div>
+          </div>
+
+          <!-- APPROACH 1: BRUTE FORCE (if applicable) -->
+          <div class="content-section animate-on-scroll">
+            <h2>Approach 1: Brute Force</h2>
+            <p>
+              Explain the brute force approach here.
+            </p>
+            
+            <div class="complexity-analysis glass">
+              <h3>Complexity Analysis</h3>
+              <ul>
+                <li><strong>Time Complexity:</strong> O(n²) - Explain why</li>
+                <li><strong>Space Complexity:</strong> O(1) - Explain why</li>
+              </ul>
+            </div>
+
+            <details class="code-section">
+              <summary class="code-header">
+                <span>Show Brute Force Solution</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="code-content glass">
+                <pre><code class="language-python"><span class="keyword">def</span> <span class="function">solutionBruteForce</span>(input_params):
+    <span class="comment"># Your brute force code here</span>
+    <span class="keyword">pass</span></code></pre>
+              </div>
+            </details>
+          </div>
+
+          <!-- APPROACH 2: OPTIMAL SOLUTION -->
+          <div class="content-section animate-on-scroll">
+            <h2>Approach 2: Optimal Solution</h2>
+            <p>
+              Explain your optimal approach here. What makes it better?
+            </p>
+            
+            <div class="algorithm-steps glass">
+              <h3>Algorithm Steps:</h3>
+              <ol>
+                <li>Step 1 description</li>
+                <li>Step 2 description</li>
+                <li>Step 3 description</li>
+                <li>Continue as needed...</li>
+              </ol>
+            </div>
+
+            <div class="complexity-analysis glass">
+              <h3>Complexity Analysis</h3>
+              <ul>
+                <li><strong>Time Complexity:</strong> O(n) - Explain the improvement</li>
+                <li><strong>Space Complexity:</strong> O(n) - Explain space usage</li>
+              </ul>
+            </div>
+
+            <details class="code-section" open>
+              <summary class="code-header">
+                <span>Optimal Solution</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="code-content glass">
+                <pre><code class="language-python"><span class="keyword">def</span> <span class="function">optimalSolution</span>(input_params):
+    <span class="comment"># Your optimal solution code here</span>
+    <span class="comment"># Use proper syntax highlighting classes</span>
+    
+    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="builtin">range</span>(<span class="builtin">len</span>(input_params)):
+        <span class="comment"># Implementation details</span>
+        <span class="keyword">pass</span>
+    
+    <span class="keyword">return</span> result</code></pre>
+              </div>
+            </details>
+          </div>
+
+          <!-- VISUAL EXPLANATION (optional) -->
+          <div class="content-section animate-on-scroll">
+            <h2>Visual Explanation</h2>
+            <div class="visual-explanation glass">
+              <p>Walk through an example step by step:</p>
+              
+              <div class="trace-steps">
+                <div class="trace-step">
+                  <strong>Step 1:</strong> Describe what happens in the first step
+                </div>
+                <div class="trace-step">
+                  <strong>Step 2:</strong> Continue the trace through your algorithm
+                </div>
+                <div class="trace-step">
+                  <strong>Final:</strong> Show the final result
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KEY INSIGHTS -->
+          <div class="content-section animate-on-scroll">
+            <h2>Key Insights</h2>
+            <div class="insights-box glass">
+              <ul>
+                <li>Important insight about the algorithm or data structure</li>
+                <li>Why this approach works better than alternatives</li>
+                <li>Common patterns or techniques used</li>
+                <li>When to apply this solution to other problems</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- FOLLOW-UP QUESTIONS (optional) -->
+          <div class="content-section animate-on-scroll">
+            <h2>Follow-up Questions</h2>
+            <div class="followup-box glass">
+              <ol>
+                <li>What if the constraints were different?</li>
+                <li>How would you modify this for a related problem?</li>
+                <li>What are the edge cases to consider?</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <footer class="post-footer animate-on-scroll">
+          <div class="navigation-links">
+            <a href="/" class="nav-link">← All Problems</a>
+            <a href="/posts/next-problem" class="nav-link">Next Problem →</a>
+          </div>
+        </footer>
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<!-- Include the same styles as the existing blog posts -->
+<style>
+  .post-main {
+    min-height: 100vh;
+    padding-top: 5rem;
+  }
+
+  .post-article {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  .post-container {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .post-header {
+    text-align: left;
+  }
+
+  .breadcrumb a {
+    color: #14b8a6;
+    text-decoration: none;
+    font-size: 0.95rem;
+    margin-bottom: 1rem;
+    display: inline-block;
+    transition: color 0.3s ease;
+  }
+
+  .breadcrumb a:hover {
+    color: #5eead4;
+  }
+
+  .problem-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .problem-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #14b8a6;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .difficulty-badge {
+    padding: 0.4rem 1rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .difficulty-easy {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .difficulty-medium {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+  }
+
+  .difficulty-hard {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .leetcode-link a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #FFA116;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.3s ease;
+  }
+
+  .leetcode-link a:hover {
+    color: #ffb84d;
+  }
+
+  .post-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .post-description {
+    font-size: 1.25rem;
+    color: #d1d5db;
+    line-height: 1.6;
+    margin-bottom: 2rem;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .tag {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    padding: 0.4rem 1rem;
+    border-radius: 16px;
+    font-size: 0.875rem;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+
+  .post-content {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+  }
+
+  .content-section h2 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #eeeeee;
+  }
+
+  .content-section h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: #14b8a6;
+  }
+
+  .content-section p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+  }
+
+  .problem-box,
+  .example-box,
+  .complexity-analysis,
+  .algorithm-steps,
+  .insights-box,
+  .followup-box,
+  .visual-explanation {
+    padding: 2rem;
+    border-radius: 16px;
+    margin: 1.5rem 0;
+  }
+
+  .example-box h3 {
+    margin-bottom: 1rem;
+    color: #eeeeee;
+  }
+
+  .keyword {
+    color: #3b82f6;
+    font-weight: 600;
+  }
+
+  .algorithm-steps ol,
+  .insights-box ul,
+  .followup-box ol {
+    padding-left: 1.5rem;
+  }
+
+  .algorithm-steps li,
+  .insights-box li,
+  .followup-box li {
+    margin-bottom: 0.75rem;
+    line-height: 1.7;
+  }
+
+  .code-section {
+    margin: 2rem 0;
+    border-radius: 16px;
+    overflow: hidden;
+  }
+
+  .code-header {
+    background: rgba(0, 0, 0, 0.6);
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-weight: 600;
+    color: #eeeeee;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: none;
+    transition: background 0.3s ease;
+  }
+
+  .code-header:hover {
+    background: rgba(0, 0, 0, 0.8);
+  }
+
+  .code-header svg {
+    transition: transform 0.3s ease;
+  }
+
+  .code-section[open] .code-header svg {
+    transform: rotate(180deg);
+  }
+
+  .code-content {
+    border-top: none;
+    border-radius: 0 0 16px 16px;
+  }
+
+  .code-content pre {
+    margin: 0;
+    background: rgba(0, 0, 0, 0.8);
+    border: none;
+    border-radius: 0 0 16px 16px;
+  }
+
+  .code-content pre code {
+    background: none;
+    padding: 0;
+    font-size: 0.95rem;
+    line-height: 1.6;
+  }
+
+  .language-python .keyword { color: #ff7b72; }
+  .language-python .function { color: #d2a8ff; }
+  .language-python .builtin { color: #79c0ff; }
+  .language-python .number { color: #79c0ff; }
+  .language-python .comment { color: #8b949e; }
+
+  .trace-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 1rem;
+  }
+
+  .trace-step {
+    padding: 1rem;
+    background: rgba(59, 130, 246, 0.1);
+    border-radius: 8px;
+    border-left: 4px solid #3b82f6;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.95rem;
+  }
+
+  .post-footer {
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 2rem;
+  }
+
+  .navigation-links {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .nav-link {
+    color: #14b8a6;
+    text-decoration: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 12px;
+    background: rgba(20, 184, 166, 0.1);
+    border: 1px solid rgba(20, 184, 166, 0.2);
+    transition: all 0.3s ease;
+  }
+
+  .nav-link:hover {
+    background: rgba(20, 184, 166, 0.2);
+    transform: translateY(-2px);
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .post-article {
+      padding: 1rem;
+    }
+
+    .post-title {
+      font-size: 2.5rem;
+    }
+
+    .post-description {
+      font-size: 1.1rem;
+    }
+
+    .problem-meta {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .navigation-links {
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .content-section h2 {
+      font-size: 1.75rem;
+    }
+
+    .problem-box,
+    .example-box,
+    .complexity-analysis,
+    .algorithm-steps,
+    .insights-box,
+    .followup-box,
+    .visual-explanation {
+      padding: 1.5rem;
+    }
+  }
+</style>

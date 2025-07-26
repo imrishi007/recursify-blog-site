@@ -1,0 +1,395 @@
+---
+// Sample blog posts data - in a real implementation, this would come from your content collection
+const blogPosts = [
+  {
+    number: 1,
+    title: "Two Sum",
+    difficulty: "Easy",
+    excerpt: "Given an array of integers nums and an integer target, return indices of the two numbers such that they add up to target.",
+    url: "/posts/two-sum",
+    tags: ["Array", "Hash Table"],
+    readTime: "5 min read"
+  },
+  {
+    number: 2,
+    title: "Add Two Numbers",
+    difficulty: "Medium",
+    excerpt: "You are given two non-empty linked lists representing two non-negative integers stored in reverse order.",
+    url: "/posts/add-two-numbers",
+    tags: ["Linked List", "Math"],
+    readTime: "8 min read"
+  },
+  {
+    number: 3,
+    title: "Longest Substring Without Repeating Characters",
+    difficulty: "Medium",
+    excerpt: "Given a string s, find the length of the longest substring without repeating characters.",
+    url: "/posts/longest-substring",
+    tags: ["String", "Sliding Window"],
+    readTime: "10 min read"
+  },
+  {
+    number: 4,
+    title: "Median of Two Sorted Arrays",
+    difficulty: "Hard",
+    excerpt: "Given two sorted arrays nums1 and nums2, return the median of the two sorted arrays in O(log(m+n)) time.",
+    url: "/posts/median-sorted-arrays",
+    tags: ["Array", "Binary Search"],
+    readTime: "15 min read"
+  },
+  {
+    number: 5,
+    title: "Longest Palindromic Substring",
+    difficulty: "Medium",
+    excerpt: "Given a string s, return the longest palindromic substring in s using dynamic programming approach.",
+    url: "/posts/longest-palindrome",
+    tags: ["String", "Dynamic Programming"],
+    readTime: "12 min read"
+  },
+  {
+    number: 6,
+    title: "ZigZag Conversion",
+    difficulty: "Medium",
+    excerpt: "The string 'PAYPALISHIRING' is written in a zigzag pattern and then read line by line.",
+    url: "/posts/zigzag-conversion",
+    tags: ["String", "Simulation"],
+    readTime: "7 min read"
+  }
+];
+
+function getDifficultyClass(difficulty: string) {
+  switch (difficulty.toLowerCase()) {
+    case 'easy': return 'difficulty-easy';
+    case 'medium': return 'difficulty-medium';
+    case 'hard': return 'difficulty-hard';
+    default: return 'difficulty-medium';
+  }
+}
+---
+
+<section class="blog-posts" id="posts">
+  <div class="posts-container">
+    <div class="posts-header animate-on-scroll">
+      <h2 class="posts-title">
+        <span class="gradient-text">LeetCode Solutions</span>
+      </h2>
+      <p class="posts-subtitle">
+        Step-by-step solutions with detailed explanations and optimized approaches
+      </p>
+    </div>
+
+    <div class="posts-grid">
+      {blogPosts.map((post, index) => (
+        <article class="post-card glass animate-on-scroll" style={`animation-delay: ${index * 0.1}s`}>
+          <div class="post-header">
+            <div class="post-number">{post.number}</div>
+            <div class="post-meta">
+              <span class={`difficulty-badge ${getDifficultyClass(post.difficulty)}`}>
+                {post.difficulty}
+              </span>
+              <div class="leetcode-icon">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818c.51.515 1.043.944 1.654 1.207a5.021 5.021 0 0 0 2.004.388 5.086 5.086 0 0 0 2.013-.403 5.484 5.484 0 0 0 1.702-1.211L11.7 16.4l7.312-7.312c.196-.196.4-.4.62-.606.203-.21.35-.467.349-.738.015-.282-.074-.558-.238-.792a1.348 1.348 0 0 0-.307-.418c-.37-.365-.936-.609-1.512-.609-.576 0-1.141.244-1.512.609L12.6 10.345 8.344 6.088a.915.915 0 0 1-.013-1.292.914.914 0 0 1 1.292-.013l4.012 4.013a.914.914 0 0 1 .013 1.292.915.915 0 0 1-1.292.013L8.344 6.088Z" fill="#FFA116"/>
+                </svg>
+              </div>
+            </div>
+          </div>
+          
+          <div class="post-content">
+            <h3 class="post-title">
+              <a href={post.url}>{post.number} – {post.title}</a>
+            </h3>
+            
+            <p class="post-excerpt">{post.excerpt}</p>
+            
+            <div class="post-tags">
+              {post.tags.map(tag => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          </div>
+          
+          <div class="post-footer">
+            <span class="read-time">{post.readTime}</span>
+            <a href={post.url} class="read-more">
+              Read Solution
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12h14"/>
+                <path d="M12 5l7 7-7 7"/>
+              </svg>
+            </a>
+          </div>
+        </article>
+      ))}
+    </div>
+
+    <div class="posts-footer animate-on-scroll">
+      <p class="more-coming">More solutions coming soon...</p>
+      <div class="github-link">
+        <a href="https://github.com/recursify" class="btn btn-glass">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+          </svg>
+          View on GitHub
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .blog-posts {
+    padding: 6rem 0;
+    position: relative;
+  }
+
+  .posts-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  .posts-header {
+    text-align: center;
+    margin-bottom: 4rem;
+  }
+
+  .posts-title {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+  }
+
+  .gradient-text {
+    background: linear-gradient(135deg, #3b82f6 0%, #14b8a6 50%, #8b45ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .posts-subtitle {
+    font-size: 1.25rem;
+    color: #9ca3af;
+    max-width: 600px;
+    margin: 0 auto;
+  }
+
+  .posts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+  }
+
+  .post-card {
+    padding: 2rem;
+    transition: all 0.3s ease;
+    border-radius: 20px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .post-card:hover {
+    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.12);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+  }
+
+  .post-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, #3b82f6, #14b8a6, #8b45ff);
+    border-radius: 20px 20px 0 0;
+  }
+
+  .post-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #14b8a6;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .post-meta {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .difficulty-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .difficulty-easy {
+    background: rgba(34, 197, 94, 0.2);
+    color: #22c55e;
+    border: 1px solid rgba(34, 197, 94, 0.3);
+  }
+
+  .difficulty-medium {
+    background: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+    border: 1px solid rgba(251, 191, 36, 0.3);
+  }
+
+  .difficulty-hard {
+    background: rgba(239, 68, 68, 0.2);
+    color: #ef4444;
+    border: 1px solid rgba(239, 68, 68, 0.3);
+  }
+
+  .leetcode-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .post-content {
+    margin-bottom: 2rem;
+  }
+
+  .post-title {
+    margin-bottom: 1rem;
+  }
+
+  .post-title a {
+    color: #eeeeee;
+    text-decoration: none;
+    font-size: 1.5rem;
+    font-weight: 600;
+    transition: color 0.3s ease;
+  }
+
+  .post-title a:hover {
+    color: #14b8a6;
+  }
+
+  .post-excerpt {
+    color: #d1d5db;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+  }
+
+  .post-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .tag {
+    background: rgba(59, 130, 246, 0.1);
+    color: #3b82f6;
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.875rem;
+    border: 1px solid rgba(59, 130, 246, 0.2);
+  }
+
+  .post-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 1.5rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .read-time {
+    color: #9ca3af;
+    font-size: 0.875rem;
+  }
+
+  .read-more {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #14b8a6;
+    text-decoration: none;
+    font-weight: 500;
+    transition: all 0.3s ease;
+  }
+
+  .read-more:hover {
+    color: #5eead4;
+    transform: translateX(4px);
+  }
+
+  .posts-footer {
+    text-align: center;
+  }
+
+  .more-coming {
+    color: #9ca3af;
+    font-size: 1.1rem;
+    margin-bottom: 2rem;
+  }
+
+  .github-link {
+    display: flex;
+    justify-content: center;
+  }
+
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .posts-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+
+    .posts-title {
+      font-size: 2.5rem;
+    }
+
+    .posts-subtitle {
+      font-size: 1.1rem;
+    }
+
+    .post-card {
+      padding: 1.5rem;
+    }
+
+    .post-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 1rem;
+    }
+
+    .post-meta {
+      align-self: flex-end;
+    }
+
+    .post-footer {
+      flex-direction: column;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .posts-container {
+      padding: 0 1rem;
+    }
+
+    .posts-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .post-card {
+      padding: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,332 @@
+---
+---
+
+<nav class="navbar glass-nav">
+  <div class="nav-container">
+    <div class="nav-brand">
+      <a href="/" class="brand-link">
+        <div class="logo">
+          <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M16 2L26 8L26 24L16 30L6 24L6 8L16 2Z" stroke="url(#gradient)" stroke-width="2" fill="none"/>
+            <path d="M16 8L22 12L22 20L16 24L10 20L10 12L16 8Z" stroke="url(#gradient)" stroke-width="1.5" fill="rgba(59,130,246,0.1)"/>
+            <defs>
+              <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" style="stop-color:#3b82f6;stop-opacity:1" />
+                <stop offset="100%" style="stop-color:#14b8a6;stop-opacity:1" />
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="brand-text">RECURSIFY</span>
+      </a>
+    </div>
+    
+    <div class="nav-links">
+      <a href="/" class="nav-link">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9,22 9,12 15,12 15,22"/>
+        </svg>
+        <span class="nav-text">Home</span>
+      </a>
+      
+      <div class="search-container">
+        <button class="search-toggle" id="search-toggle" aria-label="Toggle search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+        <div class="search-input-container" id="search-container">
+          <input 
+            type="text" 
+            placeholder="Search DSA problems..." 
+            class="search-input" 
+            id="search-input"
+            autocomplete="off"
+          />
+          <div class="search-results" id="search-results"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  .navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+    padding: 1rem 0;
+    transition: all 0.3s ease;
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+  }
+
+  .brand-link {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    color: #eeeeee;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .brand-link:hover {
+    color: #14b8a6;
+    transform: translateY(-1px);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .brand-text {
+    font-size: 1.5rem;
+    font-weight: 700;
+    letter-spacing: -0.025em;
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #eeeeee;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+    color: #14b8a6;
+  }
+
+  .search-container {
+    position: relative;
+  }
+
+  .search-toggle {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 0.5rem;
+    color: #eeeeee;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .search-toggle:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #14b8a6;
+  }
+
+  .search-input-container {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 0.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    min-width: 300px;
+  }
+
+  .search-input-container.active {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  .search-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: rgba(10, 10, 35, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    color: #eeeeee;
+    font-size: 1rem;
+    outline: none;
+    transition: all 0.3s ease;
+  }
+
+  .search-input:focus {
+    border-color: #14b8a6;
+    box-shadow: 0 0 0 3px rgba(20, 184, 166, 0.1);
+  }
+
+  .search-input::placeholder {
+    color: #9ca3af;
+  }
+
+  .search-results {
+    background: rgba(10, 10, 35, 0.95);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    margin-top: 0.5rem;
+    max-height: 300px;
+    overflow-y: auto;
+    display: none;
+  }
+
+  .search-results.active {
+    display: block;
+  }
+
+  .search-result-item {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    cursor: pointer;
+    transition: background 0.2s ease;
+  }
+
+  .search-result-item:hover {
+    background: rgba(255, 255, 255, 0.05);
+  }
+
+  .search-result-item:last-child {
+    border-bottom: none;
+  }
+
+  .search-result-title {
+    color: #eeeeee;
+    font-weight: 500;
+    margin-bottom: 0.25rem;
+  }
+
+  .search-result-excerpt {
+    color: #9ca3af;
+    font-size: 0.875rem;
+  }
+
+  /* Mobile responsive */
+  @media (max-width: 768px) {
+    .nav-container {
+      padding: 0 1rem;
+    }
+
+    .nav-links {
+      gap: 1rem;
+    }
+
+    .nav-text {
+      display: none;
+    }
+
+    .search-input-container {
+      right: -100px;
+      min-width: 250px;
+    }
+
+    .brand-text {
+      font-size: 1.25rem;
+    }
+  }
+
+  @media (max-width: 480px) {
+    .search-input-container {
+      right: -150px;
+      min-width: 200px;
+    }
+  }
+</style>
+
+<script>
+  // Search functionality
+  const searchToggle = document.getElementById('search-toggle');
+  const searchContainer = document.getElementById('search-container');
+  const searchInput = document.getElementById('search-input');
+  const searchResults = document.getElementById('search-results');
+
+  // Sample blog posts data - in a real app, this would come from your content
+  const blogPosts = [
+    { title: "1 – Two Sum", url: "/posts/two-sum", difficulty: "Easy", excerpt: "Find two numbers that add up to target" },
+    { title: "2 – Add Two Numbers", url: "/posts/add-two-numbers", difficulty: "Medium", excerpt: "Add two numbers represented as linked lists" },
+    { title: "3 – Longest Substring Without Repeating Characters", url: "/posts/longest-substring", difficulty: "Medium", excerpt: "Find the longest substring without repeating characters" },
+    { title: "4 – Median of Two Sorted Arrays", url: "/posts/median-sorted-arrays", difficulty: "Hard", excerpt: "Find median of two sorted arrays in O(log(m+n))" },
+    { title: "5 – Longest Palindromic Substring", url: "/posts/longest-palindrome", difficulty: "Medium", excerpt: "Find the longest palindromic substring" }
+  ];
+
+  searchToggle?.addEventListener('click', () => {
+    searchContainer?.classList.toggle('active');
+    if (searchContainer?.classList.contains('active')) {
+      searchInput?.focus();
+    }
+  });
+
+  // Close search when clicking outside
+  document.addEventListener('click', (e) => {
+    if (!e.target.closest('.search-container')) {
+      searchContainer?.classList.remove('active');
+      searchResults?.classList.remove('active');
+    }
+  });
+
+  // Search functionality
+  searchInput?.addEventListener('input', (e) => {
+    const query = e.target.value.toLowerCase().trim();
+    
+    if (query.length === 0) {
+      searchResults?.classList.remove('active');
+      return;
+    }
+
+    const filteredPosts = blogPosts.filter(post => 
+      post.title.toLowerCase().includes(query) || 
+      post.excerpt.toLowerCase().includes(query)
+    );
+
+    if (filteredPosts.length > 0) {
+      searchResults.innerHTML = filteredPosts.map(post => `
+        <div class="search-result-item" onclick="window.location.href='${post.url}'">
+          <div class="search-result-title">${post.title}</div>
+          <div class="search-result-excerpt">${post.excerpt}</div>
+        </div>
+      `).join('');
+      searchResults?.classList.add('active');
+    } else {
+      searchResults.innerHTML = '<div class="search-result-item"><div class="search-result-title">No results found</div></div>';
+      searchResults?.classList.add('active');
+    }
+  });
+
+  // Handle keyboard navigation
+  searchInput?.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') {
+      searchContainer?.classList.remove('active');
+      searchResults?.classList.remove('active');
+    }
+  });
+</script>
