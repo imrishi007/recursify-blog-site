@@ -20,7 +20,7 @@
         <span class="brand-text">RECURSIFY</span>
       </a>
     </div>
-    
+
     <div class="nav-links">
       <a href="/" class="nav-link">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -29,7 +29,7 @@
         </svg>
         <span class="nav-text">Home</span>
       </a>
-      
+
       <div class="search-container">
         <button class="search-toggle" id="search-toggle" aria-label="Toggle search">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -38,10 +38,10 @@
           </svg>
         </button>
         <div class="search-input-container" id="search-container">
-          <input 
-            type="text" 
-            placeholder="Search DSA problems..." 
-            class="search-input" 
+          <input
+            type="text"
+            placeholder="Search DSA problems..."
+            class="search-input"
             id="search-input"
             autocomplete="off"
           />
@@ -53,6 +53,14 @@
 </nav>
 
 <style>
+  /* Universal box-sizing for easier layout */
+  :root {
+      box-sizing: border-box;
+  }
+  *, *::before, *::after {
+      box-sizing: inherit;
+  }
+
   .navbar {
     position: fixed;
     top: 0;
@@ -66,7 +74,7 @@
   .nav-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 2rem; /* Initial padding */
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -130,6 +138,7 @@
 
   .search-container {
     position: relative;
+    flex-shrink: 0;
   }
 
   .search-toggle {
@@ -153,13 +162,15 @@
   .search-input-container {
     position: absolute;
     top: 100%;
-    right: 0;
+    right: 0; /* Default: align to the right of .search-container for larger screens */
     margin-top: 0.5rem;
     opacity: 0;
     visibility: hidden;
     transform: translateY(-10px);
     transition: all 0.3s ease;
     min-width: 300px;
+    max-width: 400px;
+    box-sizing: border-box; /* Ensure padding/border are included in width */
   }
 
   .search-input-container.active {
@@ -170,7 +181,7 @@
 
   .search-input {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.75rem 1rem; /* Standard padding for the input text */
     background: rgba(10, 10, 35, 0.9);
     backdrop-filter: blur(20px);
     border: 1px solid rgba(255, 255, 255, 0.2);
@@ -179,6 +190,7 @@
     font-size: 1rem;
     outline: none;
     transition: all 0.3s ease;
+    box-sizing: border-box; /* Crucial for input */
   }
 
   .search-input:focus {
@@ -223,18 +235,19 @@
   .search-result-title {
     color: #eeeeee;
     font-weight: 500;
-    margin-bottom: 0.25rem;
+    /* margin-bottom: 0.25rem; */ /* Removed if only one line of text */
   }
 
-  .search-result-excerpt {
-    color: #9ca3af;
-    font-size: 0.875rem;
-  }
+  /* .search-result-excerpt { */
+    /* display: none; */ /* Could also use display: none; if you prefer to keep the div but hide content */
+    /* color: #9ca3af; */
+    /* font-size: 0.875rem; */
+  /* } */
 
   /* Mobile responsive */
   @media (max-width: 768px) {
     .nav-container {
-      padding: 0 1rem;
+      padding: 0 1rem; /* Adjust padding for smaller screens */
     }
 
     .nav-links {
@@ -246,8 +259,16 @@
     }
 
     .search-input-container {
-      right: -100px;
-      min-width: 250px;
+      right: unset;
+      left: 50%;
+      transform: translateX(-50%) translateY(-10px);
+      width: calc(100vw - 2rem);
+      min-width: 200px;
+      max-width: 350px;
+    }
+
+    .search-input-container.active {
+      transform: translateX(-50%) translateY(0);
     }
 
     .brand-text {
@@ -257,29 +278,26 @@
 
   @media (max-width: 480px) {
     .search-input-container {
-      right: -150px;
-      min-width: 200px;
+      max-width: calc(100vw - 2rem);
+      min-width: 180px;
     }
   }
+
+  @media (max-width: 350px) {
+    .search-input-container {
+      min-width: unset;
+    }
+  }
+
 </style>
 
 <script>
-  // Search functionality
+  import { blogPosts } from '../data/blogPosts.js'; // This is the correct import path
+
   const searchToggle = document.getElementById('search-toggle');
   const searchContainer = document.getElementById('search-container');
   const searchInput = document.getElementById('search-input');
   const searchResults = document.getElementById('search-results');
-
-  // Import blog posts data from centralized source
-  const blogPosts = [
-    { title: "1 – Two Sum", url: "/posts/two-sum", difficulty: "Easy", excerpt: "Find two numbers that add up to target" },
-    { title: "2 – Add Two Numbers", url: "/posts/add-two-numbers", difficulty: "Medium", excerpt: "Add two numbers represented as linked lists" },
-    { title: "3 – Longest Substring Without Repeating Characters", url: "/posts/longest-substring", difficulty: "Medium", excerpt: "Find the longest substring without repeating characters" },
-    { title: "4 – Median of Two Sorted Arrays", url: "/posts/median-sorted-arrays", difficulty: "Hard", excerpt: "Find median of two sorted arrays in O(log(m+n))" },
-    { title: "5 – Longest Palindromic Substring", url: "/posts/longest-palindrome", difficulty: "Medium", excerpt: "Find the longest palindromic substring" },
-    { title: "6 – ZigZag Conversion", url: "/posts/zigzag-conversion", difficulty: "Medium", excerpt: "Convert string to zigzag pattern" },
-    { title: "7 – Reverse Integer", url: "/posts/reverse-integer", difficulty: "Medium", excerpt: "Reverse a 32-bit integer with overflow handling" }
-  ];
 
   searchToggle?.addEventListener('click', () => {
     searchContainer?.classList.toggle('active');
@@ -288,35 +306,34 @@
     }
   });
 
-  // Close search when clicking outside
   document.addEventListener('click', (e) => {
-    const target = e.target as HTMLElement;
+    const target = e.target;
     if (!target.closest('.search-container')) {
       searchContainer?.classList.remove('active');
       searchResults?.classList.remove('active');
     }
   });
 
-  // Search functionality
   searchInput?.addEventListener('input', (e) => {
-    const target = e.target as HTMLInputElement;
+    const target = e.target;
     const query = target.value.toLowerCase().trim();
-    
+
     if (query.length === 0) {
       searchResults?.classList.remove('active');
       return;
     }
 
-    const filteredPosts = blogPosts.filter(post => 
-      post.title.toLowerCase().includes(query) || 
-      post.excerpt.toLowerCase().includes(query)
+    const filteredPosts = blogPosts.filter(post =>
+      post.title.toLowerCase().includes(query) ||
+      post.excerpt.toLowerCase().includes(query) ||
+      post.tags.some(tag => tag.toLowerCase().includes(query)) ||
+      post.number.toString().includes(query) // Added search by problem number
     );
 
     if (filteredPosts.length > 0) {
       searchResults.innerHTML = filteredPosts.map(post => `
         <div class="search-result-item" onclick="window.location.href='${post.url}'">
-          <div class="search-result-title">${post.title}</div>
-          <div class="search-result-excerpt">${post.excerpt}</div>
+          <div class="search-result-title">${post.number} – ${post.title}</div>
         </div>
       `).join('');
       searchResults?.classList.add('active');
@@ -326,7 +343,6 @@
     }
   });
 
-  // Handle keyboard navigation
   searchInput?.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       searchContainer?.classList.remove('active');

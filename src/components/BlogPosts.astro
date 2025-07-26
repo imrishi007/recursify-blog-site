@@ -30,23 +30,23 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
               </div>
             </div>
           </div>
-          
+
           <div class="post-content">
             <h3 class="post-title">
               <a href={post.url}>{post.number} – {post.title}</a>
             </h3>
-            
+
             <p class="post-excerpt">{post.excerpt}</p>
-            
+
             <div class="post-tags">
               {post.tags.map(tag => (
                 <span class="tag">{tag}</span>
               ))}
             </div>
           </div>
-          
+
           <div class="post-footer">
-            <span class="read-time">{post.readTime}</span>
+            <span class="read-time">{post.readTime} min read</span>
             <a href={post.url} class="read-more">
               Read Solution
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -60,7 +60,6 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
     </div>
 
     <div class="posts-footer animate-on-scroll">
-      <p class="more-coming">More solutions coming soon...</p>
       <div class="social-links">
         <a href="https://github.com/imrishi007" class="btn btn-glass" target="_blank" rel="noopener" title="GitHub">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.5.5.09.66-.22.66-.48 0-.24-.01-.87-.01-1.7-2.78.6-3.37-1.34-3.37-1.34-.45-1.15-1.1-1.46-1.1-1.46-.9-.62.07-.6.07-.6 1 .07 1.53 1.03 1.53 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.08.63-1.33-2.22-.25-4.56-1.11-4.56-4.95 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.65 0 0 .84-.27 2.75 1.02A9.56 9.56 0 0 1 12 6.8c.85.004 1.71.115 2.51.337 1.91-1.29 2.75-1.02 2.75-1.02.55 1.38.2 2.4.1 2.65.64.7 1.03 1.59 1.03 2.68 0 3.85-2.34 4.7-4.57 4.95.36.31.68.92.68 1.85 0 1.33-.01 2.4-.01 2.73 0 .27.16.58.67.48A10.01 10.01 0 0 0 22 12c0-5.52-4.48-10-10-10z"/></svg>
@@ -80,6 +79,19 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
 </section>
 
 <style>
+  /* Universal box-sizing for easier layout */
+  :root {
+      box-sizing: border-box;
+  }
+  *, *::before, *::after {
+      box-sizing: inherit;
+  }
+
+  /* Prevent horizontal overflow on the body if padding/margin is the issue */
+  body {
+      overflow-x: hidden;
+  }
+
   .blog-posts {
     padding: 6rem 0;
     position: relative;
@@ -88,7 +100,7 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
   .posts-container {
     max-width: 1200px;
     margin: 0 auto;
-    padding: 0 2rem;
+    padding: 0 1rem;
   }
 
   .posts-header {
@@ -118,7 +130,7 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
 
   .posts-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 2rem;
     margin-bottom: 4rem;
   }
@@ -129,6 +141,9 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
     border-radius: 20px;
     position: relative;
     overflow: hidden;
+    display: flex; /* Ensure consistent height for cards */
+    flex-direction: column;
+    justify-content: space-between;
   }
 
   .post-card:hover {
@@ -202,7 +217,7 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
   }
 
   .post-content {
-    margin-bottom: 2rem;
+    margin-bottom: 2rem; /* Restore margin-bottom */
   }
 
   .post-title {
@@ -242,19 +257,23 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
     border: 1px solid rgba(59, 130, 246, 0.2);
   }
 
+  /* Re-added .post-footer styles for individual cards */
   .post-footer {
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding-top: 1.5rem;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
+    margin-top: auto; /* Push to bottom if content varies */
   }
 
+  /* Re-added .read-time styles */
   .read-time {
     color: #9ca3af;
     font-size: 0.875rem;
   }
 
+  /* Re-added .read-more styles */
   .read-more {
     display: flex;
     align-items: center;
@@ -265,6 +284,7 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
     transition: all 0.3s ease;
   }
 
+  /* Re-added .read-more:hover styles */
   .read-more:hover {
     color: #5eead4;
     transform: translateX(4px);
@@ -272,19 +292,19 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
 
   .posts-footer {
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
   }
 
-  .more-coming {
-    color: #9ca3af;
-    font-size: 1.1rem;
-    margin-bottom: 2rem;
-  }
+  /* Removed .more-coming styles (if they were still there) */
 
   .social-links {
     display: flex;
     justify-content: center;
     gap: 1rem;
-    margin-top: 2rem;
+    flex-wrap: wrap;
   }
 
   .btn-glass {
@@ -300,6 +320,7 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
     font-size: 0.9rem;
     transition: all 0.3s ease;
     text-decoration: none;
+    flex-shrink: 0;
   }
 
   .btn-glass:hover {
@@ -307,6 +328,8 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
     border-color: rgba(255, 255, 255, 0.3);
     transform: translateY(-3px);
   }
+
+  /* Removed .random-problem-btn styles (as the button is moved) */
 
   /* Responsive design */
   @media (max-width: 768px) {
@@ -329,18 +352,30 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
 
     .post-header {
       flex-direction: column;
-      align-items: flex-start;
-      gap: 1rem;
+      align-items: center;
+      text-align: center;
+      gap: 0.5rem;
+    }
+
+    .post-number {
+      margin-bottom: 0.5rem;
     }
 
     .post-meta {
-      align-self: flex-end;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.5rem;
+      align-self: center;
     }
 
-    .post-footer {
-      flex-direction: column;
-      gap: 1rem;
-      align-items: flex-start;
+    .social-links {
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .btn-glass {
+      padding: 0.6rem 1rem;
+      font-size: 0.8rem;
     }
   }
 
@@ -356,5 +391,32 @@ import { blogPosts, getDifficultyClass } from '../data/blogPosts.js';
     .post-card {
       padding: 1rem;
     }
+
+    .post-title a {
+      font-size: 1.3rem;
+    }
   }
 </style>
+
+<script>
+  // This script block should now only contain the animate-on-scroll logic
+  // The random problem logic is moved to the Hero section's script.
+
+  // Optional: Add intersection observer for animate-on-scroll if not already globally handled
+  const animateOnScrollElements = document.querySelectorAll('.animate-on-scroll');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('is-visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, {
+    threshold: 0.1, // Trigger when 10% of the element is visible
+    rootMargin: '0px 0px -50px 0px' // Start animation a bit before it enters viewport bottom
+  });
+
+  animateOnScrollElements.forEach(element => {
+    observer.observe(element);
+  });
+</script>

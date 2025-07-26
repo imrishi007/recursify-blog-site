@@ -284,7 +284,7 @@
   transform: translateY(-2px);
 }
 
-/* Responsive design */
+
 @media (max-width: 768px) {
   .post-article {
     padding: 1rem;
@@ -322,4 +322,4 @@
   .visual-explanation {
     padding: 1.5rem;
   }
-} 
+}

@@ -1,0 +1,176 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import '../../styles/blog-post.css';
+import fs from 'fs';
+const cppCode = fs.readFileSync('./src/code/MaxConsecutiveOnesIII.cpp', 'utf-8');
+
+// POST METADATA
+const POST_NUMBER = 1004;
+const POST_TITLE = "Max Consecutive Ones III";
+const POST_DIFFICULTY = "Medium";
+const POST_DESCRIPTION = "Given a binary array nums and an integer k, return the maximum number of consecutive 1's in the array if you can flip at most k 0's.";
+const LEETCODE_URL = "https://leetcode.com/problems/max-consecutive-ones-iii/";
+const POST_TAGS = ["Array", "Sliding Window"];
+---
+
+<Layout title={`${POST_TITLE} - RECURSIFY`} description={POST_DESCRIPTION}>
+  <Navbar />
+  <main class="post-main">
+    <article class="post-article">
+      <div class="post-container">
+        <header class="post-header animate-on-scroll">
+          <div class="breadcrumb">
+            <a href="/">← Back to Problems</a>
+          </div>
+          <div class="problem-meta">
+            <span class="problem-number">{POST_NUMBER}</span>
+            <span class={`difficulty-badge difficulty-${POST_DIFFICULTY.toLowerCase()}`}>{POST_DIFFICULTY}</span>
+            <div class="leetcode-link">
+              <a href={LEETCODE_URL} target="_blank" rel="noopener">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818c.51.515 1.043.944 1.654 1.207a5.021 5.021 0 0 0 2.004.388 5.086 5.086 0 0 0 2.013-.403 5.484 5.484 0 0 0 1.702-1.211L11.7 16.4l7.312-7.312c.196-.196.4-.4.62-.606.203-.21.35-.467.349-.738.015-.282-.074-.558-.238-.792a1.348 1.348 0 0 0-.307-.418c-.37-.365-.936-.609-1.512-.609-.576 0-1.141.244-1.512.609L12.6 10.345 8.344 6.088a.915.915 0 0 1-.013-1.292.914.914 0 0 1 1.292-.013l4.012 4.013a.914.914 0 0 1 .013 1.292.915.915 0 0 1-1.292.013L8.344 6.088Z" fill="#FFA116"/>
+                </svg>
+                View on LeetCode
+              </a>
+            </div>
+          </div>
+          <h1 class="post-title">{POST_TITLE}</h1>
+          <p class="post-description">
+            {POST_DESCRIPTION}
+          </p>
+          <div class="post-tags">
+            {POST_TAGS.map(tag => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </header>
+
+        <section class="post-content">
+          <div class="content-section animate-on-scroll">
+            <h2>Problem Statement</h2>
+            <div class="problem-box glass">
+              <p>
+                Given a binary array <code>nums</code> and an integer <code>k</code>, return the maximum number of consecutive <code>1</code>'s in the array if you can flip at most <code>k</code> <code>0</code>'s.
+              </p>
+            </div>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>Examples</h2>
+            <div class="example-box glass">
+              <h3>Example 1:</h3>
+              <pre><code><span class="keyword">Input:</span> nums = [1,1,1,0,0,0,1,1,1,1,0], k = 2
+<span class="keyword">Output:</span> 6
+<span class="keyword">Explanation:</span> [1,1,1,0,0,<b>1,1,1,1,1,1</b>] when flipping the last two 0's.</code></pre>
+            </div>
+            <div class="example-box glass">
+              <h3>Example 2:</h3>
+              <pre><code><span class="keyword">Input:</span> nums = [0,0,1,1,0,0,1,1,1,0,1,1,0,0,0,1,1,1,1], k = 3
+<span class="keyword">Output:</span> 10
+<span class="keyword">Explanation:</span> Flip 3 zeros at positions 4, 5, and 9 to get 10 consecutive 1's.</code></pre>
+            </div>
+            <div class="example-box glass">
+              <h3>Example 3:</h3>
+              <pre><code><span class="keyword">Input:</span> nums = [0,0,0,1], k = 4
+<span class="keyword">Output:</span> 4</code></pre>
+            </div>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>Intuition</h2>
+            <div class="insights-box glass">
+              <p>Whenever you hear something like <b>SUBSTRING</b> or <b>SUBARRAY</b> (SUB-ANYTHING 😂) try to think of a <b>sliding window</b> approach…</p>
+              <p>
+                The brute force approach would be to traverse the whole array, generate all possible subarrays, and for each, count the zeroes and flip up to <code>k</code> of them. This is highly inefficient (exponential time complexity).
+              </p>
+              <p>
+                Instead, we use the <b>sliding window</b> technique. We use two pointers, <b>LEFT</b> and <b>RIGHT</b>, to maintain a window with at most <code>k</code> zeroes. If the number of zeroes exceeds <code>k</code>, we shrink the window from the left until it is valid again, always updating the maximum window size.
+              </p>
+              <ul>
+                <li>We traverse the array once, expanding the window with the right pointer.</li>
+                <li>If zeroes in the window exceed `k`, move the left pointer to shrink the window until valid.</li>
+                <li>At each step, update the answer with the current window size.</li>
+              </ul>
+              <p>
+                <b>Time Complexity:</b> O(n) (each element is visited at most twice)<br/>
+                <b>Space Complexity:</b> O(1) (no extra data structures)
+              </p>
+              <p>I hope this made you understand the approach behind solving this easy problem of LeetCode 😊</p>
+            </div>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>C++ Code Implementation</h2>
+            <details class="code-section" open>
+              <summary class="code-header">
+                <span>Optimal Sliding Window Solution (C++)</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="code-content glass">
+                <pre><code class="language-cpp">{cppCode}</code></pre>
+              </div>
+            </details>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>Dry Run with Example</h2>
+            <div class="visual-explanation glass">
+              <p><b>Input:</b> <code>nums = [1, 1, 0, 0, 1, 1, 1, 0], k = 2</code></p>
+              <div class="trace-steps">
+                <div class="trace-step"><b>Step 1:</b> l=0, r=0, zeroCnt=0, Window=[1] — no zero, extend window</div>
+                <div class="trace-step"><b>Step 2:</b> l=0, r=1, zeroCnt=0, Window=[1,1] — no zero, extend window</div>
+                <div class="trace-step"><b>Step 3:</b> l=0, r=2, zeroCnt=1, Window=[1,1,0] — 1 zero, within k</div>
+                <div class="trace-step"><b>Step 4:</b> l=0, r=3, zeroCnt=2, Window=[1,1,0,0] — 2 zeroes, still valid</div>
+                <div class="trace-step"><b>Step 5:</b> l=0, r=4, zeroCnt=2, Window=[1,1,0,0,1] — still 2 zeroes, extend</div>
+                <div class="trace-step"><b>Step 6:</b> l=0, r=5, zeroCnt=2, Window=[1,1,0,0,1,1] — extend</div>
+                <div class="trace-step"><b>Step 7:</b> l=0, r=6, zeroCnt=2, Window=[1,1,0,0,1,1,1] — max window = 7, still valid</div>
+                <div class="trace-step"><b>Step 8:</b> l=0, r=7, zeroCnt=3, Window=[1,1,0,0,1,1,1,0] — 3 zeroes &gt; k → shrink from left</div>
+                <div class="trace-step"><b>Step 9:</b> l=1, r=7, zeroCnt=3, Window=[1,0,0,1,1,1,0] — nums[0]=1 → no effect</div>
+                <div class="trace-step"><b>Step 10:</b> l=2, r=7, zeroCnt=3, Window=[0,0,1,1,1,0] — nums[1]=1 → no effect</div>
+                <div class="trace-step"><b>Step 11:</b> l=3, r=7, zeroCnt=2, Window=[0,1,1,1,0] — nums[2]=0 → zeroCnt--</div>
+              </div>
+              <p>At this point, window = [0,1,1,1,0] → length = 5<br/>Max remains 7 (from earlier). <b>Final answer = 7</b></p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style>
+.bubble-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bubble-bg::before, .bubble-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(32px);
+  opacity: 0.45;
+  animation: bubbleMove 18s infinite alternate ease-in-out;
+}
+.bubble-bg::before {
+  width: 420px; height: 420px;
+  left: 10vw; top: 10vh;
+  background: radial-gradient(circle at 30% 40%, #3b82f6 0%, #14b8a6 100%);
+  animation-delay: 0s;
+}
+.bubble-bg::after {
+  width: 320px; height: 320px;
+  right: 8vw; bottom: 12vh;
+  background: radial-gradient(circle at 70% 80%, #8b45ff 0%, #14b8a6 100%);
+  animation-delay: 6s;
+}
+@keyframes bubbleMove {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-40px) scale(1.08); }
+}
+</style>

@@ -1,0 +1,293 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import { blogPosts } from '../../data/blogPosts.js'; // Import blogPosts for navigation
+import '../../styles/blog-post.css';
+
+// POST METADATA
+const POST_NUMBER = 37; // LeetCode problem number for Sudoku Solver
+const POST_TITLE = "Sudoku Solver";
+const POST_DIFFICULTY = "Hard";
+const POST_DESCRIPTION = "Implement a Sudoku solver using backtracking to fill empty cells in a 9x9 grid.";
+const LEETCODE_URL = "https://leetcode.com/problems/sudoku-solver/";
+const POST_TAGS = ["Backtracking", "Matrix", "DFS"];
+
+// Find the next problem (by number) for navigation
+const sortedPosts = blogPosts.slice().sort((a, b) => a.number - b.number);
+const currentIndex = sortedPosts.findIndex(post => post.number === POST_NUMBER);
+const nextPost = sortedPosts[currentIndex + 1];
+const nextUrl = nextPost ? nextPost.url : "/"; // If no next post, go back to main problems page
+const nextLabel = nextPost ? `Next Problem ${nextPost.number} →` : `← Back to Problems`;
+
+// C++ Code provided by the user, with HTML entities escaped
+const cppCode = `class Solution {
+public:
+    bool isSafe(vector<vector<char>>& board,int row,int col,char dig){
+        //horizontal
+        for(int j =0;j<9; j++) if(board[row][j] == dig) return false;
+        //column
+        for(int i = 0 ; i < 9;i++) if(board[i][col] == dig) return false;
+        //check 3 cross 3 grid
+        int srow = (row / 3) * 3;
+        int scol = (col / 3) * 3;
+        for(int i = srow; i < srow + 3; i++) {
+            for(int j = scol; j < scol + 3; j++) {
+                if(board[i][j] == dig) return false;
+            }
+        }
+        return true;
+    }
+
+    bool helper(vector<vector<char>>& board,int row,int col){
+        if(row == 9){
+            return true;
+        }
+        int nextRow = row, nextCol = col+1;
+        if(nextCol == 9){
+            nextRow++;
+            nextCol=0;
+        }
+        if(board[row][col] != '.') {
+            return helper(board, nextRow, nextCol);
+        }
+        for(char i = '1'; i <= '9' ;i++){
+            if(isSafe(board,row,col,i)){
+                board[row][col] = i;
+                if(helper(board,nextRow,nextCol)){
+                    return true;
+                }
+                board[row][col] = '.';
+            }
+        }
+        return false;
+    }
+
+    void solveSudoku(vector<vector<char>>& board) {
+        helper(board,0,0);
+    }
+};`;
+---
+
+<Layout title={`${POST_TITLE} - RECURSIFY`} description={POST_DESCRIPTION}>
+  <Navbar />
+  <main class="post-main">
+    <div class="bubble-bg"></div>
+    <article class="post-article">
+      <div class="post-container">
+        <header class="post-header animate-on-scroll">
+          <div class="breadcrumb">
+            <a href="/">← Back to Problems</a>
+          </div>
+          <div class="problem-meta">
+            <span class="problem-number">{POST_NUMBER}</span>
+            <span class={`difficulty-badge difficulty-${POST_DIFFICULTY.toLowerCase()}`}>{POST_DIFFICULTY}</span>
+            <div class="leetcode-link">
+              <a href={LEETCODE_URL} target="_blank" rel="noopener">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818c.51.515 1.043.944 1.654 1.207a5.021 5.021 0 0 0 2.004.388 5.086 5.086 0 0 0 2.013-.403 5.484 5.484 0 0 0 1.702-1.211L11.7 16.4l7.312-7.312c.196-.196.4-.4.62-.606.203-.21.35-.467.349-.738.015-.282-.074-.558-.238-.792a1.348 1.348 0 0 0-.307-.418c-.37-.365-.936-.609-1.512-.609-.576 0-1.141.244-1.512.609L12.6 10.345 8.344 6.088a.915.915 0 0 1-.013-1.292.914.914 0 0 1 1.292-.013l4.012 4.013a.914.914 0 0 1 .013 1.292.915.915 0 0 1-1.292.013L8.344 6.088Z" fill="#FFA116"/>
+                </svg>
+                View on LeetCode
+              </a>
+            </div>
+          </div>
+          <h1 class="post-title">{POST_TITLE}</h1>
+          <p class="post-description">
+            {POST_DESCRIPTION}
+          </p>
+          <div class="post-tags">
+            {POST_TAGS.map(tag => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </header>
+
+        <section class="post-content">
+          <!-- PROBLEM STATEMENT SECTION -->
+          <div class="content-section animate-on-scroll">
+            <h2>Problem Statement</h2>
+            <div class="problem-box glass">
+              <p>
+                Write a program to solve a Sudoku puzzle by filling the empty cells.
+              </p>
+              <p>
+                A Sudoku solution must satisfy all of the following rules:
+              </p>
+              <ul>
+                <li>Each of the digits <code>1-9</code> must occur exactly once in each row.</li>
+                <li>Each of the digits <code>1-9</code> must occur exactly once in each column.</li>
+                <li>Each of the digits <code>1-9</code> must occur exactly once in each of the 9 <code>3x3</code> sub-boxes of the grid.</li>
+              </ul>
+              <p>
+                The <code>'.'</code> character indicates empty cells.
+              </p>
+            </div>
+          </div>
+
+          <!-- EXAMPLES SECTION -->
+          <div class="content-section animate-on-scroll">
+            <h2>Examples</h2>
+            <div class="example-box glass">
+              <h3>Example 1:</h3>
+              <pre><code><span class="keyword">Input:</span> board = [
+  ["5","3",".",".","7",".",".",".","."],
+  ["6",".",".","1","9","5",".",".","."],
+  [".","9","8",".",".",".",".","6","."],
+  ["8",".",".",".","6",".",".",".","3"],
+  ["4",".",".","8",".","3",".",".","1"],
+  ["7",".",".",".","2",".",".",".","6"],
+  [".","6",".",".",".",".","2","8","."],
+  [".",".",".","4","1","9",".",".","5"],
+  [".",".",".",".","8",".",".","7","9"]
+]
+<span class="keyword">Output:</span> [
+  ["5","3","4","6","7","8","9","1","2"],
+  ["6","7","2","1","9","5","3","4","8"],
+  ["1","9","8","3","4","2","5","6","7"],
+  ["8","5","9","7","6","1","4","2","3"],
+  ["4","2","6","8","5","3","7","9","1"],
+  ["7","1","3","9","2","4","8","5","6"],
+  ["9","6","1","5","3","7","2","8","4"],
+  ["2","8","7","4","1","9","6","3","5"],
+  ["3","4","5","2","8","6","1","7","9"]
+]
+<span class="keyword">Explanation:</span> The input board is shown above and the only valid solution is shown.</code></pre>
+            </div>
+          </div>
+
+          <!-- INTUITION SECTION -->
+          <div class="content-section animate-on-scroll">
+            <h2>Intuition</h2>
+            <div class="insights-box glass">
+              <p>
+                Here's how I approached the Sudoku solver. It's a classic backtracking problem where we try to fill the board step-by-step, and whenever we hit a dead end (like no number can be placed safely), we backtrack and try a different number in the previous cells.
+              </p>
+              <p>
+                First, I made a function called <code>isSafe</code>. As the name suggests, this function checks whether it’s safe to place a digit in a particular cell. Sudoku has a few simple rules — each digit from <code>1</code> to <code>9</code> must appear only once in every row, column, and the <code>3x3</code> grid it belongs to.
+              </p>
+              <p>
+                So, in the <code>isSafe</code> function, I just checked these three conditions:
+              </p>
+              <ul>
+                <li>I loop through the row and return <code>false</code> if that digit is already present.</li>
+                <li>I do the same for the column.</li>
+                <li>Then I calculated the starting row and column of the <code>3x3</code> grid by doing <code>(row/3)*3</code> and <code>(col/3)*3</code> — this gives us the top-left cell of the subgrid the current cell belongs to. Then I simply checked every cell inside that <code>3x3</code> box.</li>
+              </ul>
+              <p>
+                Now comes the main part — the <code>helper</code> function. This is the recursive function that actually tries to solve the board using backtracking.
+              </p>
+            </div>
+          </div>
+
+          <!-- ALGORITHM STEPS -->
+          <div class="content-section animate-on-scroll">
+            <h2>Algorithm Steps</h2>
+            <div class="algorithm-steps glass">
+              <h3><code>helper</code> function logic:</h3>
+              <ol>
+                <li>If <code>row</code> becomes <code>9</code>, it means we've completed all rows and solved the board, so I just return <code>true</code>.</li>
+                <li>Then I calculated the next cell to move to. If the current column reaches the end (<code>col == 8</code>), then I move to the next row and reset the column to <code>0</code>.</li>
+                <li>Now if the current cell is already filled (i.e., not a <code>.</code>), I don’t touch it — I just call the <code>helper</code> on the next cell directly.</li>
+                <li>But if it's empty, I try placing all digits from <code>'1'</code> to <code>'9'</code> in that cell. For every digit, I first check if it’s safe to place using the <code>isSafe</code> function. If it is, I place the digit and call the <code>helper</code> for the next cell.</li>
+                <li>If that leads to a solution, I just return <code>true</code>.</li>
+                <li>If it doesn't, I backtrack — reset the cell back to <code>.</code> and try the next digit.</li>
+              </ol>
+              <p>
+                Finally, the <code>solveSudoku</code> function is just the main function that kicks things off. It calls <code>helper(board, 0, 0)</code> to start from the top-left cell.
+              </p>
+            </div>
+          </div>
+
+          <!-- C++ Code Implementation -->
+          <div class="content-section animate-on-scroll">
+            <h2>C++ Code Implementation</h2>
+            <details class="code-section" open>
+              <summary class="code-header">
+                <span>Backtracking Solution (C++)</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="code-content glass">
+                <pre><code class="language-cpp">{cppCode}</code></pre>
+              </div>
+            </details>
+          </div>
+
+          <!-- COMPLEXITY ANALYSIS -->
+          <div class="content-section animate-on-scroll">
+            <h2>Complexity Analysis</h2>
+            <div class="complexity-analysis glass">
+              <ul>
+                <li>
+                  <strong>Time Complexity:</strong> O(9<sup>N</sup>), where N is the number of empty cells in the Sudoku board.
+                  <p>
+                    It’s kind of tricky, because we are dealing with backtracking here. So first of all, at every empty cell, we are trying out digits from '1' to '9'. So for each empty cell, we have 9 choices in the worst case. And we can have up to 81 cells in a 9x9 board. That makes it feel like the time complexity could go up to O(9<sup>81</sup>) in the absolute worst case.
+                  </p>
+                  <p>
+                    But wait... it's actually much better in real scenarios. Because we’re not just blindly trying all 9 numbers in every cell. We only place a number if it satisfies the Sudoku conditions – meaning the number doesn’t already exist in that row, column, or the 3x3 subgrid. This massively cuts down our actual number of recursive calls, since most digits are pruned out early by the <code>isSafe</code> function.
+                  </p>
+                  <p>
+                    Still, if we want to talk about the upper bound, it’s safe to say that the time complexity is O(9<sup>N</sup>), where N is the number of empty cells in the Sudoku board. Why? Because for each empty cell, we try at most 9 options, and for each of those, we recurse into the next empty cell.
+                  </p>
+                  <p>
+                    The <code>isSafe</code> function itself runs in constant time, it just checks the row, column, and the 3x3 box, all of which are fixed size (at most 9 elements each). So its contribution to the time complexity is also constant for each call.
+                  </p>
+                  <p>
+                    So overall, the time complexity becomes O(9<sup>N</sup>), and in the worst theoretical case where the board is completely empty, that’s O(9<sup>81</sup>). But again, practically, it runs much faster due to pruning and early exits.
+                  </p>
+                </li>
+                <li>
+                  <strong>Space Complexity:</strong> O(1) (excluding recursion stack).
+                  <p>
+                    The board is always 9x9, and we aren’t using any extra arrays or hashsets. The only extra space we use is due to recursion, which at most can go 81 levels deep, so O(81), which is still constant in terms of Big-O.
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <footer class="post-footer animate-on-scroll">
+          <div class="navigation-links">
+            <a href={nextUrl} class="nav-link">{nextLabel}</a>
+          </div>
+        </footer>
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style>
+/* Styles for bubble-bg and other common elements can be in a global CSS file */
+.bubble-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bubble-bg::before, .bubble-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(32px);
+  opacity: 0.45;
+  animation: bubbleMove 18s infinite alternate ease-in-out;
+}
+.bubble-bg::before {
+  width: 420px; height: 420px;
+  left: 10vw; top: 10vh;
+  background: radial-gradient(circle at 30% 40%, #3b82f6 0%, #14b8a6 100%);
+  animation-delay: 0s;
+}
+.bubble-bg::after {
+  width: 320px; height: 320px;
+  right: 8vw; bottom: 12vh;
+  background: radial-gradient(circle at 70% 80%, #8b45ff 0%, #14b8a6 100%);
+  animation-delay: 6s;
+}
+@keyframes bubbleMove {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-40px) scale(1.08); }
+}
+</style>
