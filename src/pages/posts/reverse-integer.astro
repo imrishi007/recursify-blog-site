@@ -1,0 +1,300 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import { blogPosts } from '../../data/blogPosts.js';
+import '../../styles/blog-post.css';
+
+// POST METADATA
+const POST_NUMBER = 7;
+const POST_TITLE = "Reverse Integer";
+const POST_DIFFICULTY = "Medium";
+const POST_DESCRIPTION = "Learn how to reverse a 32-bit integer while handling overflow conditions with detailed explanations and optimized solutions.";
+const LEETCODE_URL = "https://leetcode.com/problems/reverse-integer";
+const POST_TAGS = ["Math", "Integer"];
+
+// Find the next problem (by number)
+const sortedPosts = blogPosts.slice().sort((a, b) => a.number - b.number);
+const currentIndex = sortedPosts.findIndex(post => post.number === POST_NUMBER);
+const nextPost = sortedPosts[currentIndex + 1];
+const nextUrl = nextPost ? nextPost.url : "/";
+const nextLabel = nextPost ? `Next Problem →` : `Back to Problems`;
+---
+
+<Layout title={`${POST_TITLE} - RECURSIFY`} description={POST_DESCRIPTION}>
+  <Navbar />
+  <main class="post-main">
+    <div class="bubble-bg"></div>
+    <article class="post-article">
+      <div class="post-container">
+        <header class="post-header animate-on-scroll">
+          <div class="breadcrumb">
+            <a href="/">← Back to Problems</a>
+          </div>
+          <div class="problem-meta">
+            <span class="problem-number">{POST_NUMBER}</span>
+            <span class={`difficulty-badge difficulty-${POST_DIFFICULTY.toLowerCase()}`}>{POST_DIFFICULTY}</span>
+            <div class="leetcode-link">
+              <a href={LEETCODE_URL} target="_blank" rel="noopener">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818c.51.515 1.043.944 1.654 1.207a5.021 5.021 0 0 0 2.004.388 5.086 5.086 0 0 0 2.013-.403 5.484 5.484 0 0 0 1.702-1.211L11.7 16.4l7.312-7.312c.196-.196.4-.4.62-.606.203-.21.35-.467.349-.738.015-.282-.074-.558-.238-.792a1.348 1.348 0 0 0-.307-.418c-.37-.365-.936-.609-1.512-.609-.576 0-1.141.244-1.512.609L12.6 10.345 8.344 6.088a.915.915 0 0 1-.013-1.292.914.914 0 0 1 1.292-.013l4.012 4.013a.914.914 0 0 1 .013 1.292.915.915 0 0 1-1.292.013L8.344 6.088Z" fill="#FFA116"/>
+                </svg>
+                View on LeetCode
+              </a>
+            </div>
+          </div>
+          <h1 class="post-title">{POST_TITLE}</h1>
+          <p class="post-description">
+            {POST_DESCRIPTION}
+          </p>
+          <div class="post-tags">
+            {POST_TAGS.map(tag => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </header>
+
+        <section class="post-content">
+          <!-- PROBLEM STATEMENT SECTION -->
+          <div class="content-section animate-on-scroll">
+            <h2>Problem Statement</h2>
+            <div class="problem-box glass">
+              <p>
+                Given a signed 32-bit integer <code>x</code>, return <code>x</code> with its digits reversed. 
+                If reversing <code>x</code> causes the value to go outside the signed 32-bit integer range 
+                <code>[-2³¹, 2³¹ - 1]</code>, then return <code>0</code>.
+              </p>
+              <p>
+                <strong>Assume the environment does not allow you to store 64-bit integers (signed or unsigned).</strong>
+              </p>
+            </div>
+          </div>
+
+          <!-- EXAMPLES SECTION -->
+          <div class="content-section animate-on-scroll">
+            <h2>Examples</h2>
+            <div class="example-box glass">
+              <h3>Example 1:</h3>
+              <pre><code><span class="keyword">Input:</span> x = 123
+<span class="keyword">Output:</span> 321</code></pre>
+            </div>
+            
+            <div class="example-box glass">
+              <h3>Example 2:</h3>
+              <pre><code><span class="keyword">Input:</span> x = -123
+<span class="keyword">Output:</span> -321</code></pre>
+            </div>
+
+            <div class="example-box glass">
+              <h3>Example 3:</h3>
+              <pre><code><span class="keyword">Input:</span> x = 120
+<span class="keyword">Output:</span> 21</code></pre>
+            </div>
+
+            <div class="example-box glass">
+              <h3>Example 4:</h3>
+              <pre><code><span class="keyword">Input:</span> x = 1534236469
+<span class="keyword">Output:</span> 0
+<span class="keyword">Explanation:</span> 1534236469 reversed would be 9646324351, which exceeds 32-bit range</code></pre>
+            </div>
+          </div>
+
+          <!-- APPROACH 1: STRING CONVERSION -->
+          <div class="content-section animate-on-scroll">
+            <h2>Approach 1: String Conversion</h2>
+            <p>
+              Convert the integer to a string, reverse it, and convert back. This approach is intuitive 
+              but less efficient due to string operations.
+            </p>
+            
+            <div class="complexity-analysis glass">
+              <h3>Complexity Analysis</h3>
+              <ul>
+                <li><strong>Time Complexity:</strong> O(log n) - Number of digits in the integer</li>
+                <li><strong>Space Complexity:</strong> O(log n) - String representation of the number</li>
+              </ul>
+            </div>
+
+            <details class="code-section">
+              <summary class="code-header">
+                <span>String Conversion Solution</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="code-content glass">
+                <pre><code class="language-python"><span class="keyword">def</span> <span class="function">reverse</span>(x):
+    <span class="comment"># Handle negative numbers</span>
+    sign = -<span class="number">1</span> <span class="keyword">if</span> x &lt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">1</span>
+    
+    <span class="comment"># Convert to string, reverse, and convert back</span>
+    reversed_str = <span class="builtin">str</span>(<span class="builtin">abs</span>(x))[::-<span class="number">1</span>]
+    result = sign * <span class="builtin">int</span>(reversed_str)
+    
+    <span class="comment"># Check for overflow</span>
+    <span class="keyword">if</span> result &lt; -<span class="number">2</span>**<span class="number">31</span> <span class="keyword">or</span> result &gt; <span class="number">2</span>**<span class="number">31</span> - <span class="number">1</span>:
+        <span class="keyword">return</span> <span class="number">0</span>
+    
+    <span class="keyword">return</span> result</code></pre>
+              </div>
+            </details>
+          </div>
+
+          <!-- APPROACH 2: MATHEMATICAL APPROACH (OPTIMAL) -->
+          <div class="content-section animate-on-scroll">
+            <h2>Approach 2: Mathematical Approach (Optimal)</h2>
+            <p>
+              Use mathematical operations to reverse the digits one by one. This approach is more efficient 
+              and handles overflow conditions elegantly.
+            </p>
+            
+            <div class="algorithm-steps glass">
+              <h3>Algorithm Steps:</h3>
+              <ol>
+                <li>Initialize result as 0</li>
+                <li>While x is not 0, extract the last digit using modulo 10</li>
+                <li>Multiply result by 10 and add the extracted digit</li>
+                <li>Check for overflow before each multiplication</li>
+                <li>Remove the last digit from x using integer division</li>
+                <li>Return the result with proper sign</li>
+              </ol>
+            </div>
+
+            <div class="complexity-analysis glass">
+              <h3>Complexity Analysis</h3>
+              <ul>
+                <li><strong>Time Complexity:</strong> O(log n) - Number of digits in the integer</li>
+                <li><strong>Space Complexity:</strong> O(1) - Only using constant extra space</li>
+              </ul>
+            </div>
+
+            <details class="code-section" open>
+              <summary class="code-header">
+                <span>Optimal Mathematical Solution</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="code-content glass">
+                <pre><code class="language-python"><span class="keyword">def</span> <span class="function">reverse</span>(x):
+    <span class="comment"># Handle negative numbers</span>
+    sign = -<span class="number">1</span> <span class="keyword">if</span> x &lt; <span class="number">0</span> <span class="keyword">else</span> <span class="number">1</span>
+    x = <span class="builtin">abs</span>(x)
+    
+    result = <span class="number">0</span>
+    <span class="keyword">while</span> x &gt; <span class="number">0</span>:
+        digit = x % <span class="number">10</span>
+        
+        <span class="comment"># Check for overflow before multiplication</span>
+        <span class="keyword">if</span> result &gt; <span class="number">2</span>**<span class="number">31</span> // <span class="number">10</span> <span class="keyword">or</span> \
+           (result == <span class="number">2</span>**<span class="number">31</span> // <span class="number">10</span> <span class="keyword">and</span> digit &gt; <span class="number">7</span>):
+            <span class="keyword">return</span> <span class="number">0</span>
+        
+        result = result * <span class="number">10</span> + digit
+        x //= <span class="number">10</span>
+    
+    <span class="keyword">return</span> sign * result</code></pre>
+              </div>
+            </details>
+          </div>
+
+          <!-- VISUAL EXPLANATION -->
+          <div class="content-section animate-on-scroll">
+            <h2>Visual Explanation</h2>
+            <div class="visual-explanation glass">
+              <p>Let's trace through the optimal solution with <code>x = 123</code>:</p>
+              
+              <div class="trace-steps">
+                <div class="trace-step">
+                  <strong>Initial:</strong> x = 123, result = 0, sign = 1
+                </div>
+                <div class="trace-step">
+                  <strong>Step 1:</strong> digit = 123 % 10 = 3, result = 0 * 10 + 3 = 3, x = 123 // 10 = 12
+                </div>
+                <div class="trace-step">
+                  <strong>Step 2:</strong> digit = 12 % 10 = 2, result = 3 * 10 + 2 = 32, x = 12 // 10 = 1
+                </div>
+                <div class="trace-step">
+                  <strong>Step 3:</strong> digit = 1 % 10 = 1, result = 32 * 10 + 1 = 321, x = 1 // 10 = 0
+                </div>
+                <div class="trace-step">
+                  <strong>Final:</strong> return 1 * 321 = 321
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- KEY INSIGHTS -->
+          <div class="content-section animate-on-scroll">
+            <h2>Key Insights</h2>
+            <div class="insights-box glass">
+              <ul>
+                <li><strong>Overflow Detection:</strong> Check for overflow before multiplication, not after</li>
+                <li><strong>32-bit Range:</strong> [-2³¹, 2³¹ - 1] = [-2147483648, 2147483647]</li>
+                <li><strong>Edge Case:</strong> When result equals 2³¹ // 10, the next digit must be ≤ 7</li>
+                <li><strong>Mathematical Approach:</strong> More efficient than string operations</li>
+                <li><strong>Sign Handling:</strong> Process absolute value and apply sign at the end</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- FOLLOW-UP QUESTIONS -->
+          <div class="content-section animate-on-scroll">
+            <h2>Follow-up Questions</h2>
+            <div class="followup-box glass">
+              <ol>
+                <li>What if we needed to reverse a 64-bit integer instead?</li>
+                <li>How would you modify this to reverse only the last k digits?</li>
+                <li>What if we wanted to reverse the binary representation instead?</li>
+                <li>How would you handle floating-point numbers?</li>
+              </ol>
+            </div>
+          </div>
+        </section>
+
+        <footer class="post-footer animate-on-scroll">
+          <div class="navigation-links">
+            <a href={nextUrl} class="nav-link">{nextLabel}</a>
+          </div>
+        </footer>
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<head slot="head">
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+</head>
+
+<style>
+.bubble-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bubble-bg::before, .bubble-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(32px);
+  opacity: 0.45;
+  animation: bubbleMove 18s infinite alternate ease-in-out;
+}
+.bubble-bg::before {
+  width: 420px; height: 420px;
+  left: 10vw; top: 10vh;
+  background: radial-gradient(circle at 30% 40%, #3b82f6 0%, #14b8a6 100%);
+  animation-delay: 0s;
+}
+.bubble-bg::after {
+  width: 320px; height: 320px;
+  right: 8vw; bottom: 12vh;
+  background: radial-gradient(circle at 70% 80%, #8b45ff 0%, #14b8a6 100%);
+  animation-delay: 6s;
+}
+@keyframes bubbleMove {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-40px) scale(1.08); }
+}
+</style> 

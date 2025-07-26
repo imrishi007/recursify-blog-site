@@ -1,0 +1,325 @@
+/* Common Blog Post Styles for RECURSIFY */
+
+.post-main {
+  min-height: 100vh;
+  padding-top: 5rem;
+}
+
+.post-article {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.post-container {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.post-header {
+  text-align: left;
+}
+
+.breadcrumb a {
+  color: #14b8a6;
+  text-decoration: none;
+  font-size: 0.95rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+  transition: color 0.3s ease;
+}
+
+.breadcrumb a:hover {
+  color: #5eead4;
+}
+
+.problem-meta {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.problem-number {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #14b8a6;
+  font-family: 'JetBrains Mono', monospace;
+}
+
+.difficulty-badge {
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  font-size: 0.875rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.difficulty-easy {
+  background: rgba(34, 197, 94, 0.2);
+  color: #22c55e;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.difficulty-medium {
+  background: rgba(251, 191, 36, 0.2);
+  color: #fbbf24;
+  border: 1px solid rgba(251, 191, 36, 0.3);
+}
+
+.difficulty-hard {
+  background: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.leetcode-link a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #FFA116;
+  text-decoration: none;
+  font-size: 0.9rem;
+  transition: color 0.3s ease;
+}
+
+.leetcode-link a:hover {
+  color: #ffb84d;
+}
+
+.post-title {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  background: linear-gradient(135deg, #3b82f6 0%, #14b8a6 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.post-description {
+  font-size: 1.25rem;
+  color: #d1d5db;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+.post-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.tag {
+  background: rgba(59, 130, 246, 0.1);
+  color: #3b82f6;
+  padding: 0.4rem 1rem;
+  border-radius: 16px;
+  font-size: 0.875rem;
+  border: 1px solid rgba(59, 130, 246, 0.2);
+}
+
+.post-content {
+  display: flex;
+  flex-direction: column;
+  gap: 3rem;
+}
+
+.content-section h2 {
+  font-size: 2rem;
+  margin-bottom: 1.5rem;
+  color: #eeeeee;
+}
+
+.content-section h3 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  color: #14b8a6;
+}
+
+.content-section p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  margin-bottom: 1.5rem;
+}
+
+.problem-box,
+.example-box,
+.complexity-analysis,
+.algorithm-steps,
+.insights-box,
+.followup-box,
+.visual-explanation,
+.code-section,
+.output-box {
+  background: rgba(30, 40, 60, 0.45); /* deep blue glass */
+  border: 1.5px solid rgba(59, 130, 246, 0.18); /* subtle blue border */
+  box-shadow: 0 8px 32px 0 rgba(20, 184, 166, 0.18), 0 1.5px 8px 0 rgba(59,130,246,0.10);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border-radius: 20px;
+  margin: 1.5rem 0;
+  padding: 2rem;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.example-box {
+  background: rgba(36, 60, 100, 0.38);
+  border: 1.5px solid rgba(59, 130, 246, 0.22);
+  box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.10);
+}
+
+.code-section {
+  background: rgba(24, 36, 56, 0.55);
+  border: 1.5px solid rgba(20, 184, 166, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(20, 184, 166, 0.18), 0 1.5px 8px 0 rgba(59,130,246,0.10);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-radius: 20px;
+  margin: 2rem 0;
+  overflow: hidden;
+}
+
+.code-section[open] .code-header,
+.code-header {
+  background: rgba(36, 60, 100, 0.38);
+  border-bottom: 1.5px solid rgba(59, 130, 246, 0.18);
+  color: #e0e8f8;
+  font-weight: 600;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 2px 8px 0 rgba(59,130,246,0.08);
+}
+
+.code-content pre {
+  margin: 0;
+  background: rgba(20, 40, 60, 0.55);
+  border: 1.5px solid rgba(59, 130, 246, 0.18);
+  box-shadow: 0 4px 24px 0 rgba(20, 184, 166, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 0 0 20px 20px;
+  transition: background 0.3s;
+}
+
+.code-content pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #e0e8f8;
+}
+
+.output-box {
+  background: rgba(24, 36, 56, 0.55);
+  border: 1.5px solid rgba(20, 184, 166, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(20, 184, 166, 0.18), 0 1.5px 8px 0 rgba(59,130,246,0.10);
+  color: #e0e8f8;
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+  border-radius: 20px;
+  padding: 1.5rem 2rem;
+  margin: 1.5rem 0;
+  font-size: 1.05rem;
+  white-space: pre-wrap;
+}
+
+.keyword {
+  color: #3b82f6;
+  font-weight: 600;
+}
+
+.algorithm-steps ol,
+.insights-box ul,
+.followup-box ol {
+  padding-left: 1.5rem;
+}
+
+.algorithm-steps li,
+.insights-box li,
+.followup-box li {
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+}
+
+.trace-steps {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+
+.trace-step {
+  padding: 1rem;
+  background: rgba(59, 130, 246, 0.1);
+  border-radius: 8px;
+  border-left: 4px solid #3b82f6;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.95rem;
+}
+
+.post-footer {
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding-top: 2rem;
+}
+
+.navigation-links {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.nav-link {
+  color: #14b8a6;
+  text-decoration: none;
+  padding: 0.75rem 1.5rem;
+  border-radius: 12px;
+  background: rgba(20, 184, 166, 0.1);
+  border: 1px solid rgba(20, 184, 166, 0.2);
+  transition: all 0.3s ease;
+}
+
+.nav-link:hover {
+  background: rgba(20, 184, 166, 0.2);
+  transform: translateY(-2px);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .post-article {
+    padding: 1rem;
+  }
+
+  .post-title {
+    font-size: 2.5rem;
+  }
+
+  .post-description {
+    font-size: 1.1rem;
+  }
+
+  .problem-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .navigation-links {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .content-section h2 {
+    font-size: 1.75rem;
+  }
+
+  .problem-box,
+  .example-box,
+  .complexity-analysis,
+  .algorithm-steps,
+  .insights-box,
+  .followup-box,
+  .visual-explanation {
+    padding: 1.5rem;
+  }
+} 

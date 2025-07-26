@@ -270,13 +270,15 @@
   const searchInput = document.getElementById('search-input');
   const searchResults = document.getElementById('search-results');
 
-  // Sample blog posts data - in a real app, this would come from your content
+  // Import blog posts data from centralized source
   const blogPosts = [
     { title: "1 – Two Sum", url: "/posts/two-sum", difficulty: "Easy", excerpt: "Find two numbers that add up to target" },
     { title: "2 – Add Two Numbers", url: "/posts/add-two-numbers", difficulty: "Medium", excerpt: "Add two numbers represented as linked lists" },
     { title: "3 – Longest Substring Without Repeating Characters", url: "/posts/longest-substring", difficulty: "Medium", excerpt: "Find the longest substring without repeating characters" },
     { title: "4 – Median of Two Sorted Arrays", url: "/posts/median-sorted-arrays", difficulty: "Hard", excerpt: "Find median of two sorted arrays in O(log(m+n))" },
-    { title: "5 – Longest Palindromic Substring", url: "/posts/longest-palindrome", difficulty: "Medium", excerpt: "Find the longest palindromic substring" }
+    { title: "5 – Longest Palindromic Substring", url: "/posts/longest-palindrome", difficulty: "Medium", excerpt: "Find the longest palindromic substring" },
+    { title: "6 – ZigZag Conversion", url: "/posts/zigzag-conversion", difficulty: "Medium", excerpt: "Convert string to zigzag pattern" },
+    { title: "7 – Reverse Integer", url: "/posts/reverse-integer", difficulty: "Medium", excerpt: "Reverse a 32-bit integer with overflow handling" }
   ];
 
   searchToggle?.addEventListener('click', () => {
@@ -288,7 +290,8 @@
 
   // Close search when clicking outside
   document.addEventListener('click', (e) => {
-    if (!e.target.closest('.search-container')) {
+    const target = e.target as HTMLElement;
+    if (!target.closest('.search-container')) {
       searchContainer?.classList.remove('active');
       searchResults?.classList.remove('active');
     }
@@ -296,7 +299,8 @@
 
   // Search functionality
   searchInput?.addEventListener('input', (e) => {
-    const query = e.target.value.toLowerCase().trim();
+    const target = e.target as HTMLInputElement;
+    const query = target.value.toLowerCase().trim();
     
     if (query.length === 0) {
       searchResults?.classList.remove('active');
