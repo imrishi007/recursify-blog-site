@@ -1,0 +1,224 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import { blogPosts } from '../../data/blogPosts.js'; // Import blogPosts for navigation
+import '../../styles/blog-post.css';
+
+// POST METADATA
+const POST_NUMBER = 2210; // Placeholder: Assign an appropriate problem number if available
+const POST_TITLE = "Count Hills and Valleys in an Array";
+const POST_DIFFICULTY = "Easy"; // Assuming this is an easy problem based on the description
+const POST_DESCRIPTION = "This problem asks us to count the total number of hills and valleys in an array. A hill is greater than both its neighbors, a valley is less than both. Consecutive duplicates are skipped.";
+const LEETCODE_URL = "#"; // Placeholder: Add a relevant LeetCode URL if it exists
+const POST_TAGS = ["Array", "Algorithm", "Iteration"]; // Updated tags based on the problem nature
+
+// Find the next problem (by number) for navigation
+const sortedPosts = blogPosts.slice().sort((a, b) => a.number - b.number);
+const currentIndex = sortedPosts.findIndex(post => post.number === POST_NUMBER);
+const nextPost = sortedPosts[currentIndex + 1];
+const nextUrl = nextPost ? nextPost.url : "/"; // If no next post, go back to main problems page
+const nextLabel = nextPost ? `Next Problem ${nextPost.number} →` : `← Back to Problems`;
+
+// C++ Code for Hill and Valley Counting (as provided by the user)
+const cppCode = `class Solution {
+public:
+    int countHillValley(vector<int>& nums) {
+        int ans = 0, prev = nums[0];
+        for (int i = 1 ; i < nums.size()-1;i++){
+            if(nums[i] == nums[i+1])continue;
+            if(nums[i] > prev && nums[i] > nums[i+1]) ans++;
+            else if (nums[i] < prev && nums[i] < nums[i+1]) ans++;
+            prev = nums[i];
+        }   
+        return ans;
+    }
+};`;
+---
+
+<Layout title={`${POST_TITLE} - RECURSIFY`} description={POST_DESCRIPTION}>
+  <Navbar />
+  <main class="post-main">
+    <div class="bubble-bg"></div>
+    <article class="post-article">
+      <div class="post-container">
+        <header class="post-header animate-on-scroll">
+          <div class="breadcrumb">
+            <a href="/">← Back to Problems</a>
+          </div>
+          <div class="problem-meta">
+            <span class="problem-number">{POST_NUMBER}</span>
+            <span class={`difficulty-badge difficulty-${POST_DIFFICULTY.toLowerCase()}`}>{POST_DIFFICULTY}</span>
+            <div class="leetcode-link">
+              <a href={LEETCODE_URL} target="_blank" rel="noopener">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818c.51.515 1.043.944 1.654 1.207a5.021 5.021 0 0 0 2.004.388 5.086 5.086 0 0 0 2.013-.403 5.484 5.484 0 0 0 1.702-1.211L11.7 16.4l7.312-7.312c.196-.196.4-.4.62-.606.203-.21.35-.467.349-.738.015-.282-.074-.558-.238-.792a1.348 1.348 0 0 0-.307-.418c-.37-.365-.936-.609-1.512-.609-.576 0-1.141.244-1.512.609L12.6 10.345 8.344 6.088a.915.915 0 0 1-.013-1.292.914.914 0 0 1 1.292-.013l4.012 4.013a.914.914 0 0 1 .013 1.292.915.915 0 0 1-1.292.013L8.344 6.088Z" fill="#FFA116"/>
+                </svg>
+                View on LeetCode
+              </a>
+            </div>
+          </div>
+          <h1 class="post-title">{POST_TITLE}</h1>
+          <p class="post-description">
+            {POST_DESCRIPTION}
+          </p>
+          <div class="post-tags">
+            {POST_TAGS.map(tag => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </header>
+
+        <section class="post-content">
+          <div class="content-section animate-on-scroll">
+            <h2>Problem Statement</h2>
+            <div class="problem-box glass">
+              <p>
+                This problem asks us to count the total number of <code>hills</code> and <code>valleys</code> in an array.
+              </p>
+              <p>
+                The first question that comes to my mind when I see this is, how do we actually identify if a number in the array is a hill or a valley???
+              </p>
+              <p>
+                The answer is simple. Think of it logically and try to visualize the array. If a number is greater than both its left and right neighbors, it is a <code>hill</code>, like a place that is higher than everything around it.
+              </p>
+              <p>
+                Similarly, if a number is less than both of its neighbors, it is a<code>valley</code>, a place that lies at the bottom compared to its surroundings.
+              </p>
+              <p>
+                That’s all! All you really need to do is visualize this and apply those two conditions.
+              </p>
+            </div>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>Examples</h2>
+            <div class="example-box glass">
+              <h3>Example 1:</h3>
+              <pre><code><span class="keyword">Input:</span> nums = [2,4,1,1,6,5]
+<span class="keyword">Output:</span> 3
+<span class="keyword">Explanation:</span>
+- 4 is a hill (2 &lt; 4 &gt; 1).
+- 1 (at index 2) is a valley (4 &gt; 1 &lt; 6, considering the next distinct element after the duplicate).
+- 6 is a hill (1 &lt; 6 &gt; 5).</code></pre>
+              <h3>Example 2:</h3>
+              <pre><code><span class="keyword">Input:</span> nums = [1,2,3,4,5]
+<span class="keyword">Output:</span> 0
+<span class="keyword">Explanation:</span> No hills or valleys in a strictly increasing sequence.</code></pre>
+            </div>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>What if number is equal??</h2>
+            <div class="insights-box glass">
+              <p>
+                Now you might ask — what if the number is equal to one or both of its neighbors?
+              </p>
+              <p>
+                Well, imagine you're on a hill, and the next number is equal, you can assume that the hill is stretched out a bit, like a plateau. They all belong to the same hill. So we can just skip over duplicates in such cases!! makes sense, right?
+              </p>
+            </div>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>Algorithm Steps</h2>
+            <div class="algorithm-steps glass">
+              <h3>Let's Formulate the Algorithm</h3>
+              <p>
+                Take a variable to store the final answer (<code>ans</code>) and another to keep track of the previous distinct element.
+              </p>
+              <ol>
+                <li>Loop through the array... but here's a small catch:</li>
+                <li>A number can only be considered a hill or a valley if it has neighbors on both sides.</li>
+                <li>So we start from index 1 (second element) and go till <code>n - 2</code> (second last element).</li>
+                <li>While iterating, at each index check three things:
+                  <ol type="a">
+                    <li>Is the current number greater than both neighbors? If yes, it's a hill → increment <code>ans</code></li>
+                    <li>Is it less than both neighbors? If yes, it's a valley → increment <code>ans</code></li>
+                    <li>If it's equal to its neighbor(s), just skip and move on</li>
+                  </ol>
+                </li>
+                <li>Finally, return the <code>ans</code>.</li>
+              </ol>
+            </div>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>C++ Code Implementation</h2>
+            <details class="code-section" open>
+              <summary class="code-header">
+                <span>Iterative Solution (C++)</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="code-content glass">
+                <pre><code class="language-cpp">{cppCode}</code></pre>
+              </div>
+            </details>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>Complexity Analysis</h2>
+            <div class="complexity-analysis glass">
+              <ul>
+                <li>
+                  <strong>Time Complexity:</strong> O(N), where N is the number of elements in the `nums` array.
+                  <p>
+                    We traverse the array once. Each step involves constant time operations (comparisons and assignments).
+                  </p>
+                </li>
+                <li>
+                  <strong>Space Complexity:</strong> O(1).
+                  <p>
+                    We only use a few constant extra variables (`ans`, `prev`, and the loop counter `i`). The memory usage does not scale with the input size.
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <footer class="post-footer animate-on-scroll">
+          <div class="navigation-links">
+            <a href={nextUrl} class="nav-link">{nextLabel}</a>
+          </div>
+        </footer>
+      </div>
+    </article>
+  </main>
+</Layout>
+
+<style>
+/* Styles for bubble-bg and other common elements can be in a global CSS file */
+.bubble-bg {
+  position: fixed;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  z-index: -1;
+  pointer-events: none;
+  overflow: hidden;
+}
+.bubble-bg::before, .bubble-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(32px);
+  opacity: 0.45;
+  animation: bubbleMove 18s infinite alternate ease-in-out;
+}
+.bubble-bg::before {
+  width: 420px; height: 420px;
+  left: 10vw; top: 10vh;
+  background: radial-gradient(circle at 30% 40%, #3b82f6 0%, #14b8a6 100%);
+  animation-delay: 0s;
+}
+.bubble-bg::after {
+  width: 320px; height: 320px;
+  right: 8vw; bottom: 12vh;
+  background: radial-gradient(circle at 70% 80%, #8b45ff 0%, #14b8a6 100%);
+  animation-delay: 6s;
+}
+@keyframes bubbleMove {
+  0% { transform: translateY(0) scale(1); }
+  100% { transform: translateY(-40px) scale(1.08); }
+}
+</style>

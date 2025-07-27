@@ -26,6 +26,15 @@ export const blogPosts = [
     tags: ["Backtracking", "Matrix", "DFS"],
     readTime: "12" // Estimate read time
   },
+  {
+    number: 2210,
+    title: "Count Hills and Valleys in an Array",
+    difficulty: "Easy",
+    excerpt: "Count the number of hills and valleys in an array by checking neighbors and skipping equal values.",
+    url: "/posts/2210_Count_Hills_And_Valleys",
+    tags: ["Array", "Simulation"],
+    readTime: "6"
+  },
 ];
 
 export function getDifficultyClass(difficulty) {
