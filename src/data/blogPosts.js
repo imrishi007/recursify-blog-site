@@ -18,13 +18,13 @@ export const blogPosts = [
     readTime: "7"
   },
   {
-    number: 37, // New problem number
+    number: 37, 
     title: "Sudoku Solver",
-    difficulty: "Hard", // Sudoku Solver is typically Hard
+    difficulty: "Hard", 
     excerpt: "Solve a Sudoku puzzle by filling empty cells using a backtracking algorithm.",
-    url: "/posts/37_Sudoku_Solver", // Updated URL
+    url: "/posts/37_Sudoku_Solver",
     tags: ["Backtracking", "Matrix", "DFS"],
-    readTime: "12" // Estimate read time
+    readTime: "12" 
   },
   {
     number: 2210,
@@ -34,6 +34,16 @@ export const blogPosts = [
     url: "/posts/2210_Count_Hills_And_Valleys",
     tags: ["Array", "Simulation"],
     readTime: "6"
+  },
+  {
+    
+    number: 2044,
+    title: "Count Number of Maximum Bitwise-OR Subsets",
+    difficulty: "Medium", 
+    excerpt: "Count the number of subsets whose bitwise OR equals the maximum possible OR of the array. Learn recursive backtracking and memoization.",
+    url: "/posts/2044_Count_Max_Bitwise_Or", 
+    tags: ["Array", "Bit Manipulation", "Backtracking", "Dynamic Programming"],
+    readTime: "9" 
   },
 ];
 

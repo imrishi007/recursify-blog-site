@@ -1,14 +1,19 @@
 /* Common Blog Post Styles for RECURSIFY */
 
+/* --- Global & Layout --- */
 .post-main {
   min-height: 100vh;
   padding-top: 5rem;
+  position: relative; /* Needed for z-index of bubble-bg */
+  z-index: 1; /* Ensure content is above bubbles */
 }
 
 .post-article {
   max-width: 900px;
   margin: 0 auto;
   padding: 2rem;
+  position: relative;
+  z-index: 2; /* Ensure article content is above bubble background */
 }
 
 .post-container {
@@ -17,6 +22,153 @@
   gap: 3rem;
 }
 
+/* --- Bubble Background --- */
+.bubble-bg {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1; /* Send to back */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.bubble-bg::before,
+.bubble-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(32px);
+  opacity: 0.45;
+  animation: bubbleMove 18s infinite alternate ease-in-out;
+}
+
+.bubble-bg::before {
+  width: 420px;
+  height: 420px;
+  left: 10vw;
+  top: 10vh;
+  background: radial-gradient(circle at 30% 40%, #3b82f6 0%, #14b8a6 100%);
+  animation-delay: 0s;
+}
+
+.bubble-bg::after {
+  width: 320px;
+  height: 320px;
+  right: 8vw;
+  bottom: 12vh;
+  background: radial-gradient(circle at 70% 80%, #8b45ff 0%, #14b8a6 100%);
+  animation-delay: 6s;
+}
+
+@keyframes bubbleMove {
+  0% {
+    transform: translateY(0) scale(1);
+  }
+  100% {
+    transform: translateY(-40px) scale(1.08);
+  }
+}
+
+/* --- Glassmorphism Effect for Boxes --- */
+.glass {
+  background: rgba(30, 40, 60, 0.45); /* deep blue glass */
+  border: 1.5px solid rgba(59, 130, 246, 0.18); /* subtle blue border */
+  box-shadow: 0 8px 32px 0 rgba(20, 184, 166, 0.18), 0 1.5px 8px 0 rgba(59, 130, 246, 0.10);
+  backdrop-filter: blur(18px) saturate(1.4);
+  -webkit-backdrop-filter: blur(18px) saturate(1.4);
+  border-radius: 20px;
+  margin: 1.5rem 0;
+  padding: 2rem;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+/* Specific adjustments for different box types */
+.example-box.glass {
+  background: rgba(36, 60, 100, 0.38);
+  border: 1.5px solid rgba(59, 130, 246, 0.22);
+  box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.10);
+}
+
+.code-section.glass {
+  background: rgba(24, 36, 56, 0.55);
+  border: 1.5px solid rgba(20, 184, 166, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(20, 184, 166, 0.18), 0 1.5px 8px 0 rgba(59, 130, 246, 0.10);
+  backdrop-filter: blur(20px) saturate(1.4);
+  -webkit-backdrop-filter: blur(20px) saturate(1.4);
+  border-radius: 20px;
+  margin: 2rem 0;
+  overflow: hidden;
+}
+
+.code-section[open] .code-header,
+.code-header {
+  background: rgba(36, 60, 100, 0.38);
+  border-bottom: 1.5px solid rgba(59, 130, 246, 0.18);
+  color: #e0e8f8;
+  font-weight: 600;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 2px 8px 0 rgba(59, 130, 246, 0.08);
+}
+
+.code-content pre {
+  margin: 0;
+  background: rgba(20, 40, 60, 0.55);
+  border: 1.5px solid rgba(59, 130, 246, 0.18);
+  box-shadow: 0 4px 24px 0 rgba(20, 184, 166, 0.08);
+  backdrop-filter: blur(12px);
+  border-radius: 0 0 20px 20px;
+  transition: background 0.3s;
+  padding: 1.5rem; /* Add padding here for pre tag */
+  overflow-x: auto; /* Allow horizontal scrolling for long lines */
+}
+
+.code-content pre code {
+  background: none;
+  padding: 0;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: #e0e8f8; /* Default code text color */
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, monospace; /* Monospace font for code */
+}
+
+/* --- Code Syntax Highlighting (using PrismJS .token classes) --- */
+.language-cpp .token.keyword {
+  color: #8be9fd; /* e.g., class, public, int, return */
+}
+
+.language-cpp .token.comment {
+  color: #6272a4; /* Grayish blue for comments */
+  font-style: italic;
+}
+
+.language-cpp .token.function {
+  color: #50fa7b; /* Green for function names */
+}
+
+.language-cpp .token.string {
+  color: #f1fa8c; /* Yellow for strings */
+}
+
+.language-cpp .token.number {
+  color: #bd93f9; /* Purple for numbers */
+}
+
+.language-cpp .token.operator {
+  color: #ff79c6; /* Pink for operators like =, |, & */
+}
+
+.language-cpp .token.punctuation {
+  color: #f8f8f2; /* White/off-white for brackets, semicolons etc. */
+}
+
+.language-cpp .token.class-name {
+  color: #ffb86c; /* Orange for class names (e.g., vector, Solution) */
+}
+
+
+/* --- Header Elements --- */
 .post-header {
   text-align: left;
 }
@@ -118,10 +270,11 @@
   color: #3b82f6;
   padding: 0.4rem 1rem;
   border-radius: 16px;
-  font-size: 0.875rem;
   border: 1px solid rgba(59, 130, 246, 0.2);
+  font-size: 0.875rem;
 }
 
+/* --- Content Sections --- */
 .post-content {
   display: flex;
   flex-direction: column;
@@ -146,69 +299,54 @@
   margin-bottom: 1.5rem;
 }
 
-.problem-box,
-.example-box,
-.complexity-analysis,
-.algorithm-steps,
-.insights-box,
-.followup-box,
-.visual-explanation,
-.code-section,
-.output-box {
-  background: rgba(30, 40, 60, 0.45); /* deep blue glass */
-  border: 1.5px solid rgba(59, 130, 246, 0.18); /* subtle blue border */
+.content-section p:last-child {
+  margin-bottom: 0; /* Remove bottom margin for last paragraph in a box */
+}
+
+/* --- Images --- */
+.image-container {
+  display: flex;
+  justify-content: center;
+  margin: 2rem 0;
+  background: rgba(30, 40, 60, 0.45); /* Same as other glass boxes */
+  border: 1.5px solid rgba(59, 130, 246, 0.18);
   box-shadow: 0 8px 32px 0 rgba(20, 184, 166, 0.18), 0 1.5px 8px 0 rgba(59,130,246,0.10);
   backdrop-filter: blur(18px) saturate(1.4);
   -webkit-backdrop-filter: blur(18px) saturate(1.4);
   border-radius: 20px;
-  margin: 1.5rem 0;
-  padding: 2rem;
-  transition: background 0.3s, box-shadow 0.3s;
+  padding: 1.5rem; /* Padding inside the glass container */
 }
 
-.example-box {
-  background: rgba(36, 60, 100, 0.38);
-  border: 1.5px solid rgba(59, 130, 246, 0.22);
-  box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.10);
+.image-container img {
+  max-width: 100%; /* Ensure image fits container */
+  height: auto;
+  display: block; /* Remove extra space below image */
+  border-radius: 12px; /* Slightly rounded corners for the image itself */
+  border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for the image */
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2); /* Soft shadow for depth */
 }
 
-.code-section {
-  background: rgba(24, 36, 56, 0.55);
-  border: 1.5px solid rgba(20, 184, 166, 0.18);
-  box-shadow: 0 8px 32px 0 rgba(20, 184, 166, 0.18), 0 1.5px 8px 0 rgba(59,130,246,0.10);
-  backdrop-filter: blur(20px) saturate(1.4);
-  -webkit-backdrop-filter: blur(20px) saturate(1.4);
-  border-radius: 20px;
-  margin: 2rem 0;
-  overflow: hidden;
+
+/* --- Lists --- */
+.algorithm-steps ol,
+.insights-box ul,
+.followup-box ol,
+.complexity-analysis ul { /* Added complexity analysis ul here */
+  padding-left: 1.5rem;
+  list-style-position: outside; /* Ensure bullets/numbers are outside the padding */
 }
 
-.code-section[open] .code-header,
-.code-header {
-  background: rgba(36, 60, 100, 0.38);
-  border-bottom: 1.5px solid rgba(59, 130, 246, 0.18);
-  color: #e0e8f8;
-  font-weight: 600;
-  border-radius: 20px 20px 0 0;
-  box-shadow: 0 2px 8px 0 rgba(59,130,246,0.08);
+.algorithm-steps li,
+.insights-box li,
+.followup-box li,
+.complexity-analysis li { /* Added complexity analysis li here */
+  margin-bottom: 0.75rem;
+  line-height: 1.7;
+  color: #c9d1d9; /* Lighter text color for list items */
 }
 
-.code-content pre {
-  margin: 0;
-  background: rgba(20, 40, 60, 0.55);
-  border: 1.5px solid rgba(59, 130, 246, 0.18);
-  box-shadow: 0 4px 24px 0 rgba(20, 184, 166, 0.08);
-  backdrop-filter: blur(12px);
-  border-radius: 0 0 20px 20px;
-  transition: background 0.3s;
-}
-
-.code-content pre code {
-  background: none;
-  padding: 0;
-  font-size: 0.95rem;
-  line-height: 1.6;
-  color: #e0e8f8;
+.complexity-analysis ul ul li {
+    margin-bottom: 0.5rem; /* Tighter spacing for nested lists */
 }
 
 .output-box {
@@ -222,24 +360,6 @@
   margin: 1.5rem 0;
   font-size: 1.05rem;
   white-space: pre-wrap;
-}
-
-.keyword {
-  color: #3b82f6;
-  font-weight: 600;
-}
-
-.algorithm-steps ol,
-.insights-box ul,
-.followup-box ol {
-  padding-left: 1.5rem;
-}
-
-.algorithm-steps li,
-.insights-box li,
-.followup-box li {
-  margin-bottom: 0.75rem;
-  line-height: 1.7;
 }
 
 .trace-steps {
@@ -258,6 +378,7 @@
   font-size: 0.95rem;
 }
 
+/* --- Footer --- */
 .post-footer {
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding-top: 2rem;
@@ -284,7 +405,7 @@
   transform: translateY(-2px);
 }
 
-
+/* --- Responsive Design --- */
 @media (max-width: 768px) {
   .post-article {
     padding: 1rem;
@@ -313,13 +434,15 @@
     font-size: 1.75rem;
   }
 
-  .problem-box,
-  .example-box,
-  .complexity-analysis,
-  .algorithm-steps,
-  .insights-box,
-  .followup-box,
-  .visual-explanation {
+  .glass { /* Apply to all glass elements */
     padding: 1.5rem;
+  }
+
+  .code-content pre {
+    padding: 1rem; /* Adjust padding for code on smaller screens */
+  }
+
+  .image-container {
+    padding: 1rem;
   }
 }

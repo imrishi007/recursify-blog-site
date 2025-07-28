@@ -1,0 +1,247 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import Navbar from '../../components/Navbar.astro';
+import { blogPosts } from '../../data/blogPosts.js'; // Import blogPosts for navigation
+import '../../styles/blog-post.css'; // This now includes all common styles
+
+// POST METADATA
+const POST_NUMBER = 2044;
+const POST_TITLE = "Count Number of Maximum Bitwise-OR Subsets";
+const POST_DIFFICULTY = "Medium"; // Based on the problem complexity and DP solution
+const POST_DESCRIPTION = "Explore how to find the maximum bitwise OR of subsets and count how many subsets achieve this maximum, using recursion and dynamic programming.";
+const LEETCODE_URL = "https://leetcode.com/problems/count-number-of-maximum-bitwise-or-subsets/"; // Actual LeetCode URL for problem 2044
+const POST_TAGS = ["Array", "Bit Manipulation", "Backtracking", "Dynamic Programming", "Recursion", "Subset"];
+
+// Find the next problem (by number) for navigation
+const sortedPosts = blogPosts.slice().sort((a, b) => a.number - b.number);
+const currentIndex = sortedPosts.findIndex(post => post.number === POST_NUMBER);
+const nextPost = sortedPosts[currentIndex + 1];
+const nextUrl = nextPost ? nextPost.url : "/"; // If no next post, go back to main problems page
+const nextLabel = nextPost ? `Next Problem ${nextPost.number} →` : `← Back to Problems`;
+
+// C++ Code for Count Number of Maximum Bitwise-OR Subsets
+const cppCode = `class Solution {
+public:
+    int maxOr; // Stores the maximum possible OR of the entire array
+
+    // Recursive helper function with memoization
+    // ind: current index in nums array
+    // curr: current bitwise OR value of the subset built so far
+    // dp: 2D DP table for memoization (dp[index][current_or_value])
+    int calc(vector<int>& nums, int ind, int curr, vector<vector<int>>& dp){
+        // Base case: If we've processed all elements
+        if(ind == nums.size()){
+            // If the current subset's OR matches the overall maxOr, count it
+            if(curr == maxOr) return 1;
+            // Otherwise, this subset doesn't contribute to our count
+            return 0;
+        }
+
+        // Memoization check: If this state (ind, curr) has already been calculated, return the stored result
+        if(dp[ind][curr] != -1) return dp[ind][curr];
+
+        // Recursive step:
+        // 1. take: Explore the path where we include nums[ind] in the current subset
+        int take = calc(nums, ind + 1, curr | nums[ind], dp);
+        // 2. nottake: Explore the path where we exclude nums[ind] from the current subset
+        int notake = calc(nums, ind + 1, curr, dp);
+
+        // Store the result for the current state (ind, curr) in the DP table before returning
+        dp[ind][curr] = take + notake;
+
+        // Return the sum of counts from both paths
+        return take + notake;
+    }
+
+    // Main function to solve the problem
+    int countMaxOrSubsets(vector<int>& nums) {
+        int n = nums.size();
+        maxOr = 0;
+        // Calculate the maximum possible OR of the entire array (by ORing all elements)
+        for(auto &num : nums) {
+            maxOr |= num;
+        }
+
+        // Initialize DP table with -1 (indicating uncalculated states)
+        // Dimensions: (n+1) for indices, (maxOr+1) for possible OR values
+        vector<vector<int>> dp(n + 1, vector<int>(maxOr + 1, -1));
+
+        // Start the recursion from index 0, with an an initial OR sum of 0
+        return calc(nums, 0, 0, dp);
+    }
+};`;
+---
+
+<Layout title={`${POST_TITLE} - RECURSIFY`} description={POST_DESCRIPTION}>
+  <Navbar />
+  <main class="post-main">
+    <div class="bubble-bg"></div>
+    <article class="post-article">
+      <div class="post-container">
+        <header class="post-header animate-on-scroll">
+          <div class="breadcrumb">
+            <a href="/">← Back to Problems</a>
+          </div>
+          <div class="problem-meta">
+            <span class="problem-number">{POST_NUMBER}</span>
+            <span class={`difficulty-badge difficulty-${POST_DIFFICULTY.toLowerCase()}`}>{POST_DIFFICULTY}</span>
+            <div class="leetcode-link">
+              <a href={LEETCODE_URL} target="_blank" rel="noopener">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M13.483 0a1.374 1.374 0 0 0-.961.438L7.116 6.226l-3.854 4.126a5.266 5.266 0 0 0-1.209 2.104 5.35 5.35 0 0 0-.125.513 5.527 5.527 0 0 0 .062 2.362 5.83 5.83 0 0 0 .349 1.017 5.938 5.938 0 0 0 1.271 1.818c.51.515 1.043.944 1.654 1.207a5.021 5.021 0 0 0 2.004.388 5.086 5.086 0 0 0 2.013-.403 5.484 5.484 0 0 0 1.702-1.211L11.7 16.4l7.312-7.312c.196-.196.4-.4.62-.606.203-.21.35-.467.349-.738.015-.282-.074-.558-.238-.792a1.348 1.348 0 0 0-.307-.418c-.37-.365-.936-.609-1.512-.609-.576 0-1.141.244-1.512.609L12.6 10.345 8.344 6.088a.915.915 0 0 1-.013-1.292.914.914 0 0 1 1.292-.013l4.012 4.013a.914.914 0 0 1 .013 1.292.915.915 0 0 1-1.292.013L8.344 6.088Z" fill="#FFA116"/>
+                </svg>
+                View on LeetCode
+              </a>
+            </div>
+          </div>
+          <h1 class="post-title">{POST_TITLE}</h1>
+          <p class="post-description">
+            {POST_DESCRIPTION}
+          </p>
+          <div class="post-tags">
+            {POST_TAGS.map(tag => (
+              <span class="tag">{tag}</span>
+            ))}
+          </div>
+        </header>
+
+        <section class="post-content">
+          <div class="content-section animate-on-scroll">
+            <h2>Problem Statement</h2>
+            <div class="problem-box glass">
+              <p>
+                This problem states that we have to find the <code>maximum possible bitwise OR of a subset of an array called &lt;nums&gt;</code>, and next all we have to do is return the <code>number of subsets whose OR is equal to the total OR of the array</code>.
+              </p>
+              <p>
+                I am assuming you know basic concepts of logical operations such as OR, NOT, AND, XOR. If you don’t know I highly recommend to learn it. This is a basic recursion problem which can be solved by finding all the subsets of the array nums. Well, the intuition is really simple, all you have to do is find the total OR of all the numbers in nums array and store it in a variable. All you do now is find all the subsets of the array nums and calculate their OR as we move further. We will use recursion to do this.
+              </p>
+            </div>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>Intuition & Recursion Walkthrough</h2>
+            <div class="insights-box glass">
+              <p>
+                Let us first understand how recursion would work by looking at an example –
+              </p>
+              <div class="image-container">
+                <img src="/2044_rec.png" alt="Recursion Tree Example" />
+              </div>
+              <p>
+                In the above diagram, we can see a tree diagram. Now, many would wonder what is TAKE and NOT TAKE??!! I’ll try to explain in simple words. Well, it’s pretty simple to understand- We want to find OR of all possible subsets isn’t it?? How can that happen?? Well, we can just make a recursive function that can calculate all the subsets.
+              </p>
+              <p>
+                What does <code>TAKE</code> here mean?? It just conveys that we TAKE that element into consideration – For example in the above array there are two elements 1,2. Their subsets would have $2^n = 2^2 = 4$ subsets -> `[]`, `[1]`, `[2]`, `[1,2]`.
+              </p>
+              <p>
+                We will of course start from the first element – 1. Here we have two choice – Either take it, or just skip it and move to the next element. Let’s say we don’t take it, we get an empty subset which is a part of power set.
+              </p>
+              <p>
+                Now, we haven’t taken one, let us move to the next element –> 2.
+              </p>
+              <p>
+                Here we have two choices again – Take it or leave it. Leaving it again results in an empty subset so we backtrack after doing that.
+              </p>
+              <p>
+                <code>Note</code>- backtracking means going back to the previous step after we reach the end of decision as there are no more possible cases any further.
+              </p>
+              <p>
+                If we take the element 2 we now have an element to calculate OR with. We calculate it and then backtrack as no further elements can be explored. Again, since we have calculated all possible scenarios for NOT TAKING 1, we backtrack and now, we consider TAKING 1.
+              </p>
+              <p>
+                We now repeat the same steps, take 1, OR it with 0 and move further -> Take or not take 2?? Taking it gives us another subset {1,2}. And this marks end of 1’s recursion tree.
+              </p>
+              <p>
+                We will do similar steps with all the elements of array and that is how we calculate OR of all!! Simple right?!
+              </p>
+            </div>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>Introducing Dynamic Programming (Memoization)</h2>
+            <div class="algorithm-steps glass">
+              <p>
+                Now that you understand how recursion works, let me introduce to a concept known as <code>DYNAMIC PROGRAMMING</code>. It is really simple to be honest!!!! We saw in the above example, we were calculating some cases multiple times unnecessarily, for example we calculated subset 2 multiple times, that wastes a lot of time especially when you have thousands of elements in an array!!!
+              </p>
+              <p>
+                This is where concept of <code>memoization</code> kicks in!! All that we do now is make an array called <code>DP</code> which stores the results we have already calculated before!! THAT’S ITT!!!
+              </p>
+              <p>
+                We had to calculate unnecessary cases before, and now we don’t have to do so!! That’s the idea of MEMOIZATION. Of course we had to compromise with <code>Space complexity</code> but it helped us reduce the <code>time complexity</code>, we must compromise one of the parameters in order to efficiently increase other, that’s universal truth lol.
+              </p>
+              <p>
+                Coming to this problem, I explain most of the part on how it works. Briefly – we find all the subsets, calculate their ORs and then at each step, we compare the current OR with max, we add it to the answer!! Simple as that!!
+              </p>
+            </div>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>C++ Code Implementation</h2>
+            <details class="code-section glass" open>
+              <summary class="code-header">
+                <span>Dynamic Programming Solution (C++)</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+              </summary>
+              <div class="code-content">
+                <pre><code class="language-cpp">{cppCode}</code></pre>
+              </div>
+            </details>
+          </div>
+
+          <div class="content-section animate-on-scroll">
+            <h2>Time & Space Complexity: Let's Break It Down</h2>
+            <div class="complexity-analysis glass">
+              <p>
+                Alright, let's dive into the performance of these two approaches – the straightforward recursive way versus our clever memoized (Dynamic Programming) solution. It's all about how much time they take and how much memory they gobble up.
+              </p>
+              <ul>
+                <li>
+                  <code>Pure Recursion (Without Memoization):</code>
+                  <ul>
+                    <li>
+                      <code>Time Complexity: O(2^N)</code>
+                      <p>
+                        This is what we call <code>exponential time</code>, which sounds scary, and it often is! Why $2^N$? Think of it like this: for every single one of the <code>N</code> elements in your <code>nums</code> array, our recursive function faces two fundamental choices – <code>TAKE</code> it or <code>NOT TAKE</code> it. Each choice branches out further. This leads to an explosion of possibilities, with our function re-calculating the same "sub-problems" (like the OR sum for a specific part of the array from a certain starting point) over and over again. This quickly becomes a time sink for larger arrays.
+                      </p>
+                    </li>
+                    <li>
+                      <code>Space Complexity: O(N)</code>
+                      <p>
+                        This refers to the memory used by the <code>recursion call stack</code>. Every time our <code>calc</code> function calls itself, it adds a new "frame" to the stack. In the worst-case scenario, if we always go down one path (e.g., taking elements), the recursion can go as deep as <code>N</code> levels (once for each element), hence O(N) space.
+                      </p>
+                    </li>
+                  </ul>
+                </li>
+                <li>
+                  <code>Memoized Recursion (Dynamic Programming `dp` solution):</code>
+                  <ul>
+                    <li>
+                      <code>Time Complexity: O(N * maxOr)</code>
+                      <p>
+                        Now this is where the magic happens! With memoization, we introduce our <code>dp</code> table. This table ensures that each unique state – defined by <code>(current_index, current_OR_value)</code> – is calculated <code>only once</code>. Once a result for a specific state is computed, we store it. If we ever encounter that exact same state again, we just look up the answer in <code>dp</code> instead of re-calculating everything. So, the total time boils down to the number of unique states we can possibly visit, which is roughly <code>N</code> (for the index) multiplied by <code>maxOr</code> (for the possible OR values). <code>maxOr</code> is the highest possible bitwise OR you can get from all elements in the array. This is a much, much faster approach, especially for larger <code>N</code>!
+                      </p>
+                    </li>
+                    <li>
+                      <code>Space Complexity: O(N * maxOr)</code>
+                      <p>
+                        And here's the trade-off, as mentioned before! To store all those calculated results so we don't repeat work, we need our <code>dp</code> table. Its size is determined by the number of indices (<code>N</code>) and the range of possible <code>current_OR_value</code>s (up to <code>maxOr</code>). So, the space required grows with both <code>N</code> and <code>maxOr</code>. But hey, trading a bit more memory for a massive speed boost is a pretty sweet deal, right?! That's the core idea of dynamic programming, lol.
+                      </p>
+                    </li>
+                  </ul>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <footer class="post-footer animate-on-scroll">
+          <div class="navigation-links">
+            <a href={nextUrl} class="nav-link">{nextLabel}</a>
+          </div>
+        </footer>
+      </div>
+    </article>
+  </main>
+</Layout>
